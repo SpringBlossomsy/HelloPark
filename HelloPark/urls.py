@@ -25,7 +25,7 @@ urlpatterns = [
     path('admin/', admin.site.urls),
 
     url(r'^$', views.index, name='index'),
-    url(r'^acm/', include('park.urls')),
+    url(r'^park/', include('park.urls')),
     url(r'^accounts/register/$', views.MyRegistrationView.as_view(), name='registration_register'),
     url(r'^accounts/', include('registration.backends.simple.urls')),
 
