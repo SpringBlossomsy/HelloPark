@@ -99,7 +99,6 @@ def my_login(request):
         if user is not None:
             login(request, user)
             return redirect('index')
-        return HttpResponse('error')
     return render(request, 'login_register.html')
 
 
@@ -125,14 +124,11 @@ def my_logout(request):
 def my_register(request):
     if request.method == 'POST':
         if request.POST.get('code') == request.session['message_code']:
-            try:
-                u = User.objects.create_user(username=request.POST.get('mobile'), password=request.POST.get('password'))
-                u.save()
-                up = UserProfile.objects.get_or_create(user=u)
-                up.save()
-                return HttpResponse('注册成功')
-            except:
-                pass
+            u = User.objects.create_user(username=request.POST.get('mobile'), password=request.POST.get('password'))
+            u.save()
+            up = UserProfile.objects.get_or_create(user=u)
+            up.save()
+            return HttpResponse('注册成功')
         return HttpResponse('error')
     return render(request, 'login_register.html')
 
