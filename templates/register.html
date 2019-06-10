@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>register</title>
+</head>
+<body>
+<form action="{% url 'register' %}" method="post">
+    <label for="">手机号码:</label>
+    <input type="text" placeholder="11位数的手机号码" id="mobile" name="mobile" onblur="check_mobile()"/>
+    <span class="error_tip">提示信息</span>
+    <label for="">验证码:</label>
+    <input type="text" name="code" placeholder="请输入手机验证码" style="width: 140px;">
+    <input type="button" value=" 获取验证码" id="zphone" style="width: 100px;margin-left: 10px">
+    <label for="">密码:</label>
+    <input type="password" placeholder="请输入密码" id="pwd" name="pwd"/>
+    <input type="submit" value="提交">
+</form>
+
+<script>
+
+    $('#zphone').click(function(){
+        //发送验证码
+        $.get('/send_message', {mobile:$('#mobile').val()}, function(msg) {
+            alert(jQuery.trim(msg.msg));
+            if(msg.msg=='提交成功'){
+                RemainTime();
+            }
+        });
+    });
+
+    //按钮倒计时
+    var iTime = 60;
+    sTime = ''
+    function RemainTime(){
+        alert('77');
+        if (iTime == 0) {
+            document.getElementById('zphone').disabled = false;
+            sTime="获取验证码";
+            iTime = 60;
+            document.getElementById('zphone').value = sTime;
+            return;
+        }else{
+            document.getElementById('zphone').disabled = true;
+            sTime="重新发送(" + iTime + ")";
+            iTime--;
+        }
+        setTimeout(function() { RemainTime() },1000)
+        document.getElementById('zphone').value = sTime;
+    }
+
+    // 检查用户输入的手机号是否合法
+
+    function check_mobile() {
+        var re = /^1[345678]\d{9}$/; //校验手机号
+        if(re.test($('#mobile').val()))
+        {
+            alert('88');
+            $('#mobile').next().hide();
+            error_mobile = false;
+            document.getElementById('zphone').disabled = false;
+        }
+        else
+        {
+            alert('8899');
+            $('#mobile').next().html('你输入的手机格式不正确')
+            $('#mobile').next().show();
+            error_mobile = true;
+            document.getElementById('zphone').disabled = true;
+        }
+    }
+
+</script>
+
+<!-- 新 Bootstrap 核心 CSS 文件 -->
+    <link href="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- jQuery文件。务必在bootstrap.min.js 之前引入 -->
+    <script src="https://cdn.staticfile.org/jquery/2.1.1/jquery.min.js"></script>
+
+    <!-- 最新的 Bootstrap 核心 JavaScript 文件 -->
+    <script src="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
+</body>
+</html>

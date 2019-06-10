@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+{% load static from staticfiles %}
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width,initial-scale=1">
+	<title>Login</title>
+	<link rel="stylesheet" href="{% static 'css/auth.css' %}">
+    <!-- 新 Bootstrap 核心 CSS 文件 -->
+    <link href="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
+    <!-- jQuery文件。务必在bootstrap.min.js 之前引入 -->
+    <script src="https://cdn.staticfile.org/jquery/2.1.1/jquery.min.js"></script>
+    <!-- 最新的 Bootstrap 核心 JavaScript 文件 -->
+    <script src="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
+</head>
+
+<body>
+	<div class="lowin">
+		<div class="lowin-brand">
+			<img src="{% static 'images/kodinger.jpg' %}" alt="logo">
+		</div>
+		<div class="lowin-wrapper">
+			<div class="lowin-box lowin-login">
+				<div class="lowin-box-inner">
+					<form method="post" action="{% url 'login' %}">
+                        {% csrf_token %}
+						<p>登录</p>
+						<div class="lowin-group">
+							<label>账号 <a href="#" class="login-yz-link">手机验证登录？</a></label>
+							<input type="text" autocomplete="username" name="username" class="lowin-input">
+						</div>
+						<div class="lowin-group password-group">
+							<label>密码 <a href="#" class="forgot-link">忘记密码？</a></label>
+							<input type="password" name="password" autocomplete="current-password" class="lowin-input">
+						</div>
+                        <input type="submit" class="lowin-btn login-btn" value="登录">
+
+						<div class="text-foot">
+							尚未注册？ <a href="" class="register-link">注册</a>
+						</div>
+					</form>
+				</div>
+			</div>
+
+            <div class="lowin-box lowin-login2">
+				<div class="lowin-box-inner">
+					<form method="post" action="{% url 'login_yz' %}">
+                        {% csrf_token %}
+						<p>登录</p>
+						<div class="lowin-group">
+							<label>账号 <a href="" class="login-link">密码登录？</a></label>
+							<input type="text" autocomplete="username" id="mobile2" name="username" class="lowin-input" onblur="check_mobile2()">
+                            <span class="error_tip" style="color: red;"></span>
+						</div>
+						<div class="lowin-group" style="margin-bottom: 5px">
+							<label>验证码</label>
+                            <input type="text" name="code" placeholder="请输入手机验证码..." class="lowin-input">
+                            <input type="button" value=" 获取验证码" id="zphone2" class="btn btn-primary" style="float: right">
+						</div>
+                        <input type="submit" class="lowin-btn login-btn" value="登录">
+
+						<div class="text-foot">
+							尚未注册？ <a href="" class="register-link">注册</a>
+						</div>
+					</form>
+				</div>
+			</div>
+
+			<div class="lowin-box lowin-register">
+				<div class="lowin-box-inner">
+					<form method="post" action="{% url 'register' %}">
+                        {% csrf_token %}
+						<p>注册</p>
+						<div class="lowin-group">
+							<label>账号名</label>
+							<input type="text" name="mobile" placeholder="请输入手机号码..." class="lowin-input" onblur="check_mobile()">
+                            <span class="error_tip" style="color: red;"></span>
+						</div>
+						<div class="lowin-group">
+							<label>验证码</label>
+                            <input type="text" name="code" placeholder="请输入手机验证码..." class="lowin-input">
+                            <input type="button" value=" 获取验证码" id="zphone" class="btn btn-primary" style="float: right">
+						</div>
+						<div class="lowin-group">
+							<label>密码</label>
+							<input type="password" name="password" autocomplete="current-password" class="lowin-input">
+						</div>
+						<button class="lowin-btn">
+							注册
+						</button>
+
+						<div class="text-foot">
+							已有账号？ <a href="" class="login-link">登录</a>
+						</div>
+					</form>
+				</div>
+			</div>
+		</div>
+	
+		<footer class="lowin-footer">
+
+        </footer>
+	</div>
+
+	<script src="{% static 'js/auth.js' %}"></script>
+	<script>
+		Auth.init({
+			login_url: '#login',
+			forgot_url: '#forgot'
+		});
+		$('#zphone').click(function(){
+            //发送验证码
+            $.get('/park/send_message', {mobile:$("input[name='mobile']").val()}, function(msg) {
+                alert(jQuery.trim(msg.msg));
+                if(msg.msg=='提交成功'){
+                    RemainTime();
+                }
+            });
+        });
+
+		$('#zphone2').click(function(){
+            //发送验证码
+            $.get('/park/send_message2', {mobile:$("#mobile2").val()}, function(msg) {
+                alert(jQuery.trim(msg.msg));
+                if(msg.msg=='提交成功'){
+                    RemainTime();
+                }
+            });
+        });
+
+        //按钮倒计时
+        var iTime = 60;
+        sTime = '';
+        function RemainTime(){
+            if (iTime == 0) {
+                document.getElementById('zphone').disabled = false;
+                sTime="获取验证码";
+                iTime = 60;
+                document.getElementById('zphone').value = sTime;
+                return;
+            }else{
+                document.getElementById('zphone').disabled = true;
+                sTime="重新发送(" + iTime + ")";
+                iTime--;
+            }
+            setTimeout(function() { RemainTime() },1000)
+            document.getElementById('zphone').value = sTime;
+        }
+
+        // 检查用户输入的手机号是否合法
+        function check_mobile() {
+
+            var re = /^1[345678]\d{9}$/; //校验手机号
+            if(re.test($("input[name='mobile']").val()))
+            {
+                $('#mobile').next().hide();
+                document.getElementById('zphone').disabled = false;
+            }
+            else
+            {
+                $(".error_tip").text('手机格式错误...');
+                document.getElementById('zphone').disabled = true;
+            }
+        }
+        function check_mobile2() {
+
+            var re = /^1[345678]\d{9}$/; //校验手机号
+            if(re.test($("#mobile2").val()))
+            {
+                $('#mobile2').next().hide();
+                document.getElementById('zphone2').disabled = false;
+            }
+            else
+            {
+                $(".error_tip").text('手机格式错误...');
+                document.getElementById('zphone2').disabled = true;
+            }
+        }
+	</script>
+
+
+
+</body>
+</html>

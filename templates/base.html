@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+{% load static from staticfiles %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Park -- {% block title %}base{% endblock %}</title>
+</head>
+<body>
+<a href="{% url 'login' %}">login</a><hr>
+<a href="{% url 'register' %}">register</a><hr>
+<a href="{% url 'test' %}">test</a><hr>
+
+{% if user.is_authenticated %}
+    <h4>{{ user.username }} <a href="{% url 'logout' %}">Logout</a></h4>
+{% endif %}
+</body>
+</html>
