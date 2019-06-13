@@ -20,6 +20,10 @@ import urllib
 import http.client
 
 
+key = 'w1PFgbVb9cHY25GajgfS2chYFKH0inev'
+
+
+
 class MyRegistrationView(RegistrationView):  # 用户成功注册后重定向到其他页面
     def get_success_url(self, user):
         return reverse('index', user.username)
@@ -111,7 +115,6 @@ def my_login_yz(request):
         if user is not None:
             login(request, user)
             return redirect('index')
-        return HttpResponse('error')
     return render(request, 'login_register.html')
 
 
@@ -129,12 +132,24 @@ def my_register(request):
             up = UserProfile.objects.get_or_create(user=u)
             up.save()
             return HttpResponse('注册成功')
-        return HttpResponse('error')
     return render(request, 'login_register.html')
+
+
+# --------------------- 百度地图---------------------------------------------------------------
+def bai_du_map(request):
+    return render(request, 'bai_du_map.html')
+
+
+def parking_space_submit(request):
+    return render(request, 'parking_space_submit.html')
+
+
+def parking_space_location(request):
+    return render(request, 'parking_space_location.html')
 
 
 # ----------------qita-------------------------------------------------------------------------
 def test(request):
-    return render(request, 'login_register.html')
+    return render(request, 'test.html', {'key': key})
 
 

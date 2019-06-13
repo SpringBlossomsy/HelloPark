@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta name="viewport" content="initial-scale=1.0, user-scalable=no" />
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+        <title>Map</title>
+        <style type="text/css">
+            html{height:100%}
+            body{height:100%;margin:0px;padding:0px}
+            #container{height:100%}
+        </style>
+        <script type="text/javascript" src="http://api.map.baidu.com/api?v=3.0&ak=w1PFgbVb9cHY25GajgfS2chYFKH0inev">
+        </script>
+    </head>
+
+    <body>
+        <div id="container"></div>
+        <script type="text/javascript">
+            var map = new BMap.Map("container");
+            map.centerAndZoom("宁波", 15);
+            map.enableScrollWheelZoom();
+
+            /*// 创建标注
+            var marker = new BMap.Marker(new BMap.Point(121.630943, 29.864467));
+            // 将标注添加到地图中
+            map.addOverlay(marker);
+            //********************************************监听标注事件
+            //点击事件
+            marker.addEventListener("click", function(e){
+                alert("当前坐标："+e.point.lng + ", " + e.point.lat)
+            });
+            //*******************************************可托拽的标注
+            //marker的enableDragging和disableDragging方法可用来开启和关闭标注的拖拽功能。
+            marker.enableDragging();
+            //监听标注的dragend事件来捕获拖拽后标注的最新位置
+            marker.addEventListener("dragend",function(e){
+                alert("new坐标："+e.point.lng + ", " + e.point.lat)
+            });*/
+
+
+            // 添加带有定位的导航控件
+            var navigationControl = new BMap.NavigationControl({
+                // 靠左上角位置
+                anchor: BMAP_ANCHOR_TOP_LEFT,
+                // LARGE类型
+                type: BMAP_NAVIGATION_CONTROL_LARGE,
+                // 启用显示定位
+                enableGeolocation: true
+            });
+            map.addControl(navigationControl);
+            /*// 添加定位控件
+            var geolocationControl = new BMap.GeolocationControl();
+            geolocationControl.addEventListener("locationSuccess", function(e){
+                // 定位成功事件
+                var address = '';
+                address += e.addressComponent.province;
+                address += e.addressComponent.city;
+                address += e.addressComponent.district;
+                address += e.addressComponent.street;
+                address += e.addressComponent.streetNumber;
+                alert("*****");
+                alert("当前定位地址为：" + address);
+                alert("new2坐标："+e.point.lng + ", " + e.point.lat);
+                // 创建标注
+                var marker = new BMap.Marker(e.point);
+                // 将标注添加到地图中
+                map.addOverlay(marker);
+                //********************************************监听标注事件
+                //点击事件
+                marker.addEventListener("click", function(e){
+                    alert("当前坐标："+e.point.lng + ", " + e.point.lat)
+                });
+                //*******************************************可托拽的标注
+                //marker的enableDragging和disableDragging方法可用来开启和关闭标注的拖拽功能。
+                marker.enableDragging();
+                //监听标注的dragend事件来捕获拖拽后标注的最新位置
+                marker.addEventListener("dragend",function(e){
+                    alert("new坐标："+e.point.lng + ", " + e.point.lat)
+                });
+            });
+            geolocationControl.addEventListener("locationError",function(e){
+                // 定位失败事件
+                alert(e.message);
+            });
+            map.addControl(geolocationControl);*/
+
+            var geolocation = new BMap.Geolocation();
+
+
+
+
+            //单击获取点击的经纬度
+            map.addEventListener("click",function(e){
+                alert(e.point.lng + "," + e.point.lat);
+            });
+        </script>
+    </body>
+</html>

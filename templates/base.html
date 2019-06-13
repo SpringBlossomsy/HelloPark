@@ -4,14 +4,38 @@
 <head>
     <meta charset="UTF-8">
     <title>Park -- {% block title %}base{% endblock %}</title>
+    {% block head %}
+        <meta name="viewport" content="initial-scale=1.0, user-scalable=no" />
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+        <!-- 百度map api -->
+        <script type="text/javascript" src="http://api.map.baidu.com/api?v=3.0&ak=w1PFgbVb9cHY25GajgfS2chYFKH0inev">
+        </script>
+        <!-- 新 Bootstrap 核心 CSS 文件 -->
+        <link href="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
+        <!-- jQuery文件。务必在bootstrap.min.js 之前引入 -->
+        <script src="https://cdn.staticfile.org/jquery/2.1.1/jquery.min.js"></script>
+        <!-- 最新的 Bootstrap 核心 JavaScript 文件 -->
+        <script src="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    {% endblock %}
 </head>
 <body>
+{% block main %}
+
+
+
 <a href="{% url 'login' %}">login</a><hr>
 <a href="{% url 'register' %}">register</a><hr>
+<a href="{% url 'bai_du_map' %}">baidumap</a><hr>
+
 <a href="{% url 'test' %}">test</a><hr>
 
 {% if user.is_authenticated %}
     <h4>{{ user.username }} <a href="{% url 'logout' %}">Logout</a></h4>
 {% endif %}
+
+
+
+{% endblock %}
+
 </body>
 </html>
