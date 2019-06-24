@@ -1,4 +1,5 @@
 from django.shortcuts import render
+from django.views.decorators.csrf import csrf_exempt
 from registration.backends.simple.views import RegistrationView
 import re
 from django.contrib.auth.decorators import login_required, permission_required
@@ -9,7 +10,7 @@ from django.urls import reverse
 from django.contrib.auth.models import User, Group
 from park.forms import *
 from park.models import *
-from json import *
+import json
 import datetime
 import time
 import os
@@ -30,7 +31,20 @@ class MyRegistrationView(RegistrationView):  # 用户成功注册后重定向到
 
 
 def index(request):
-    return render(request, 'base.html')
+
+    return render(request, 'index.html')
+
+
+@csrf_exempt
+def setSei(request):
+    if request.method == 'POST':
+        request.session['local_lat'] = request.POST.get('lat')
+        request.session['local_lng'] = request.POST.get('lng')
+        return HttpResponse("ok")
+
+
+def center(request):
+    return render(request, 'center.html')
 
 
 # -----------------发送短信的视图函数---------------------------------------------------------------
@@ -135,21 +149,33 @@ def my_register(request):
     return render(request, 'login_register.html')
 
 
-# --------------------- 百度地图---------------------------------------------------------------
+# ------------------------- 添加车位---------------------------------------------
+def add_park(request):
+    return render(request, 'add_park.html')
+
+
+@csrf_exempt
+def add_park_inform(request):
+    informations = json.loads(request.POST.get('informations'))
+    # print(informations, informations['latlng'])
+    lat = informations['latlng']['lat']
+    lng = informations['latlng']['lng']
+    poiaddress = informations['poiaddress']
+    local_lat = request.session.get('local_lat', 29.818722)
+    local_lng = request.session.get('local_lng', 121.563897)
+    return render(request, 'add_park_inform.html', {
+        'poiaddress': poiaddress, 'lat': lat, 'lng': lng,
+        'local_lat': local_lat, 'local_lng': local_lng
+    })
+
+
+# --------------------- 地图---------------------------------------------------------------
 def bai_du_map(request):
     return render(request, 'bai_du_map.html')
 
 
-def parking_space_submit(request):
-    return render(request, 'parking_space_submit.html')
-
-
-def parking_space_location(request):
-    return render(request, 'parking_space_location.html')
-
-
 # ----------------qita-------------------------------------------------------------------------
 def test(request):
-    return render(request, 'test.html', {'key': key})
+    return render(request, 'base.html')
 
 

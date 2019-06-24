@@ -1,0 +1,115 @@
+<!DOCTYPE HTML>
+{% load staticfiles %}
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>个人中心</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no">
+		<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/buijs/lib/latest/bui.css">
+		<script src="https://cdn.jsdelivr.net/npm/buijs/lib/zepto.js"></script>
+		<script src="https://cdn.jsdelivr.net/npm/buijs/lib/latest/bui.js"></script>
+        <link rel="stylesheet" href="{% static 'css/center.css' %}">
+	</head>
+<body>
+<div class="bui-page">
+    <header class="bui-bar header-bar">
+        <div class="bui-bar-left">
+            <a class="bui-btn btn-back" onClick="javascript :history.go(-1);"><i class="icon-back"></i></a>
+        </div>
+        <div class="bui-bar-main">个人中心</div>
+        <div class="bui-bar-right">
+        </div>
+    </header>
+    <main>
+        <div class="personal-header">
+            <div class="personal-img">
+                <!--<img src="{% static 'images/head_img.jpg' %}">-->
+                <img src="http://f1.haiqq.com/allimg/3448862866/2289363549.jpg" >
+            </div>
+            {% if user.is_authenticated %}
+                <p class="name">{{ user.username }}</p>
+            {% else %}
+                <p class="name"><a href="{% url 'login' %}">请登录</a></p>
+            {% endif %}
+
+            <p class="grade">积分 0</p>
+        </div>
+        <ul class="bui-list nav-list">
+            <li class="bui-btn bui-box " href="center/mycar.html">
+                <div class="icon"><i class="iconfont icon-yellow">&#xe6f1;</i></div>
+                <div class="span1">我的车辆</div>
+                <i class="icon-listright"></i>
+            </li>
+            <li class="bui-btn bui-box">
+                <div class="icon"><i class="iconfont icon-red">&#xe669;</i></div>
+                <div class="span1">我的钱包</div>
+                <i class="icon-listright"></i>
+            </li>
+            <li class="bui-btn bui-box">
+                <div class="icon"><i class="iconfont icon-thinblue">&#xe6fa;</i></div>
+                <div class="span1">车位管理</div>
+                <i class="icon-listright"></i>
+            </li>
+            <li class="bui-btn bui-box">
+                <div class="icon"><i class="icon icon-green">&#xe62d;</i></div>
+                <div class="span1">我的订单</div>
+                <i class="icon-listright"></i>
+            </li>
+            <li class="bui-btn bui-box">
+                <div class="icon"><i class="iconfont icon-thinblue">&#xe608;</i></div>
+                <div class="span1">我的积分</div>
+                <i class="icon-listright"></i>
+            </li>
+            <li class="bui-btn bui-box">
+                <div class="icon"><i class="icon-favfill icon-red"></i></div>
+                <div class="span1">我的收藏</div>
+                <i class="icon-listright"></i>
+            </li>
+            <li class="bui-btn bui-box">
+                <div class="icon"><i class="icon-setting"></i></div>
+                <div class="span1">更多设置</div>
+                <i class="icon-listright"></i>
+            </li>
+        </ul>
+    </main>
+    <footer>
+        <!-- 底部d导航栏 -->
+        <ul class="bui-nav">
+            <li class="bui-btn bui-box-vertical">
+                <a href="./index/index.html">
+                    <i class="icon-home"></i>
+                    <div class="span1">首页</div>
+                </a>
+            </li>
+            <li class="bui-btn bui-box-vertical active"><i class="icon">&#xe67a;</i>
+                <div class="span1">我的</div>
+            </li>
+        </ul>
+    </footer>
+</div>
+
+<script>
+/**
+ * 个人中心模板
+ * 默认模块名: pages/personal/personal
+ * @return {[object]}  [ 返回一个对象 ]
+ */
+bui.ready(function(){
+
+    var pageview = {};
+
+    // 初始化定义
+    pageview.init = function () {
+
+    }
+
+    // 初始化
+    pageview.init();
+
+    // 输出模块
+    return pageview;
+})
+
+</script>
+</body>
+</html>

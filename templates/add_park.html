@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+{% load staticfiles %}
+<html lang="en">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>添加车位</title>
+    <meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no">
+    <script charset="utf-8" src="https://map.qq.com/api/js?v=2.exp&key=SPHBZ-USUC3-FT43D-YDVWO-G7CCZ-FCBND"></script>
+    <script type="text/javascript" src="https://apis.map.qq.com/tools/geolocation/min?key=SPHBZ-USUC3-FT43D-YDVWO-G7CCZ-FCBND&referer=myapp"></script>
+    <!-- jQuery文件。务必在bootstrap.min.js 之前引入 -->
+    <script src="https://cdn.staticfile.org/jquery/2.1.1/jquery.min.js"></script>
+    <!-- 最新的 Bootstrap 核心 JavaScript 文件 -->
+    <script src="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="{% static 'fonts/icons/iconfont.css' %}">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/buijs/lib/latest/bui.css">
+    <script src="https://cdn.jsdelivr.net/npm/buijs/lib/zepto.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/buijs/lib/latest/bui.js"></script>
+    <style type="text/css">
+        .header{
+            overflow: hidden;
+            height: .86rem;
+            line-height: .86rem;
+            text-align: center;
+            color: #fff;
+            background-color: #00bcd4;
+            font-size: .32rem;
+        }
+        .back-icon {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: .64rem;
+            text-align: center;
+            font-size: .4rem;
+            color: #fff;
+        }
+
+        .header-right {
+            float: right;
+            position: absolute;
+            top: 0;
+            right:3px;
+            min-width:  1.4rem;
+            padding: 0 .1rem;
+            text-align: center;
+        }
+        .header-right button {
+            height: .6rem;
+            width: 1.2rem;
+            border: 1px solid #0079ff;
+            border-radius: 5px;
+            background-color: #fff;
+            color:#0079ff;
+            text-align: center;
+            line-height: .6rem;
+            font-size: .32rem;
+        }
+
+
+
+    </style>
+</head>
+<body>
+    <div class="header">
+        添加车位
+        <div class="header-back">
+            <span class="iconfont back-icon">&#xe611;</span>
+        </div>
+        <div class="header-right">
+            <button id="confirm">确定</button>
+        </div>
+    </div>
+    <div>
+        <iframe id="mapPage" width="100%" height="600px" frameborder=0
+            src="https://apis.map.qq.com/tools/locpicker?search=1&type=1&key=SPHBZ-USUC3-FT43D-YDVWO-G7CCZ-FCBND&referer=myapp">
+        </iframe>
+    </div>
+
+<script>
+    $(function () {
+        var position;
+        window.addEventListener('message', function(event) {
+            // 接收位置信息，用户选择确认位置点后选点组件会触发该事件，回传用户的位置信息
+            var loc = event.data;
+            position = JSON.stringify(event.data, null, 4);
+            alert(JSON.stringify(event.data, null, 4));
+            if (loc && loc.module == 'locationPicker') {//防止其他应用也会向该页面post信息，需判断module是否为'locationPicker'
+              console.log('location', loc);
+            }
+        }, false);
+
+        $('#confirm').click(function () {
+            var p = position;
+            if(p != null){
+                document.write("<form action={% url 'add_park_inform' %} method=post name=form1 style='display:none'>");
+                document.write("<input type=text name=informations value='"+p+"'></form>");
+                document.form1.submit();
+            }
+
+        });
+    });
+
+</script>
+</body>
+</html>

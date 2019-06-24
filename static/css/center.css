@@ -1,0 +1,105 @@
+    .header-bar {
+        background-color: #00bcd4 !important;
+    }
+    .personal-header {
+        background-color: #00bcd4;
+        /*background-image: linear-gradient(to bottom, #7cb8e9, #89bfe3, #72a8d7, #89b5d8, #92bbda);*/
+        padding-top: .3rem;
+        padding-bottom: .3rem;
+    }
+
+    .personal-header .personal-img {
+        width: 1.5rem;
+        height: 1.5rem;
+        border-radius: 50%;
+        background:#fff;
+        /* border: 2px solid #fff; */
+        overflow: hidden;
+        margin: 0 auto .2rem auto;
+        text-align: center;
+    }
+
+    .personal-header .personal-img img {
+        width: 100%;
+    }
+
+    .personal-header p {
+        text-align: center;
+        color: #ffffff;
+        margin-bottom: 0.1rem;
+    }
+
+    .personal-header .name {
+        font-size: 0.26rem;
+    }
+
+    .personal-header .grade {
+        font-size: 0.2rem;
+    }
+
+    .nav-list {
+        border-top: none;
+        margin-top: 0.2rem;
+        padding: 0 0.2rem;
+        background-color: #ffffff;
+    }
+
+    .nav-list .bui-btn {
+        padding-left: 0;
+        padding-right: 0;
+    }
+
+    .nav-list li:first-child {
+        border-top: none;
+    }
+
+    .nav-list .icon i {
+        font-size: 0.4rem;
+    }
+
+    .nav-list .icon {
+        height: 0.42rem;
+    }
+
+    .nav-list .bui-btn {
+        border: none;
+        border-top: 1px solid #efefef;
+    }
+
+    .icon-yellow {
+        color: #ffad03;
+    }
+
+    .icon-thinblue {
+        color: #56ced5;
+    }
+
+    .icon-green {
+        color: #6ed046;
+    }
+
+    .icon-red {
+        color: #fd8886;
+    }
+/* 自己添加的字体图标 */
+    @font-face {
+        font-family: 'iconfont';
+        src: url('../fonts/icons/iconfont.eot');
+        src: url('../fonts/icons/iconfont.eot?#iefix') format('embedded-opentype'),
+        url('../fonts/icons/iconfont.woff') format('woff'),
+        url('../fonts/icons/iconfont.ttf') format('truetype'),
+        url('../fonts/icons/iconfont.svg#iconfont') format('svg');
+    }
+    [class^="iconfont-"],
+    .iconfont{
+        display:inline-block;
+        font-family:"iconfont" !important;
+        font-style:normal;
+        -webkit-font-smoothing:antialiased;
+        -webkit-text-stroke-width:0.2px;
+        -moz-osx-font-smoothing:grayscale;
+        vertical-align:middle;
+        text-align:center;
+        background-position:center;
+        background-repeat:no-repeat
+    }

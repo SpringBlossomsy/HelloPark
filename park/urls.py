@@ -1,5 +1,7 @@
 from django.conf.urls import url
 from park import views
+from django.views.generic.base import TemplateView
+
 
 urlpatterns = [
     url(r'^$', views.index, name='index'),
@@ -10,10 +12,16 @@ urlpatterns = [
     url(r'^logout/$', views.my_logout, name='logout'),
     url(r'^register/$', views.my_register, name='register'),
 
-    url(r'^bai_du_map/$', views.bai_du_map, name='bai_du_map'),
-    url(r'^parking_space_submit/$', views.parking_space_submit, name='parking_space_submit'),
-    url(r'^parking_space_location/$', views.parking_space_location, name='parking_space_location'),
+    url(r'^setSei/$', views.setSei, name='setSei'),
+    url(r'^center/$', views.center, name='center'),
 
+    url(r'^add_park/$',views.add_park, name='add_park'),
+    url(r'^add_park_inform/$', views.add_park_inform, name='add_park_inform'),
+
+
+
+
+    url(r'^bai_du_map/$', views.bai_du_map, name='bai_du_map'),
 
     url(r'^test/$', views.test, name='test'),
 ]
