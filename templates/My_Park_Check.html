@@ -1,0 +1,79 @@
+<!DOCTYPE HTML>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>车位审核</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no">
+		<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/buijs/lib/latest/bui.css">
+		<script src="https://cdn.jsdelivr.net/npm/buijs/lib/zepto.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/buijs/lib/latest/bui.js"></script>
+        <link rel="stylesheet" href="/static/css/center.css">
+		<style></style>
+	</head>
+	<body>
+
+<div class="bui-page">
+	<header class="bui-bar">
+		<div class="bui-bar-left">
+			<a class="bui-btn" onclick="bui.back();"><i class="icon-back"></i></a>
+		</div>
+		<div class="bui-bar-main">审核状态</div>
+		<div class="bui-bar-right">
+		</div>
+	</header>
+	<main>
+		<div id="step" class="bui-stepbar"></div>
+
+	</main>
+    <footer>
+        <!-- 底部d导航栏 -->
+        <ul class="bui-nav">
+            <li class="bui-btn bui-box-vertical">
+                <a href="{% url 'index' %}">
+                    <i class="icon-home"></i>
+                    <div class="span1">首页</div>
+                </a>
+            </li>
+            <li class="bui-btn bui-box-vertical active"><i class="icon">&#xe67a;</i>
+                <a href="{% url 'center' %}" ><div class="span1">我的</div></a>
+            </li>
+        </ul>
+    </footer>
+</div>
+
+<script>
+bui.ready(function(){
+    //初始化控件
+    var uiStepbar = bui.stepbar({
+        id: "#step",
+        data: [{
+            title: "车位信息",
+            subtitle: "",
+            content: "成功创建，请耐心等待"
+        }, {
+            title: "提交成功",
+            subtitle: "",
+            content: "车位信息提交成功"
+        }, {
+            title: "车位审核",
+            subtitle: "",
+            content: "车位审核中"
+        }, {
+            title: "车位添加成功",
+            subtitle: "&nbsp;",
+            content: "&nbsp;"
+        }]
+    });
+
+    //激活第2步
+    uiStepbar.value(0);
+
+    uiStepbar.on("change", function(i) {
+        console.log(i)
+    })
+    var index = uiStepbar.next();
+
+})
+</script>
+</body>
+</html>

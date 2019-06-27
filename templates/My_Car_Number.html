@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="en">
+{% load staticfiles %}
+<head>
+    <meta charset="UTF-8">
+    <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport">
+    <meta content="yes" name="apple-mobile-web-app-capable">
+    <meta content="black" name="apple-mobile-web-app-status-bar-style">
+    <meta content="telephone=no" name="format-detection">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no">
+    <title>添加车辆</title>
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/buijs/lib/latest/bui.css">
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <link rel="stylesheet" href="/static/css/center.css">
+    <script>
+        (function () {
+            function a(d, c, e) {
+                if (d.addEventListener) {
+                    d.addEventListener(c, e, false)
+                } else {
+                    d.attachEvent('on' + c, e)
+                }
+            }
+
+            function b() {
+                var c = document.documentElement.clientWidth || document.body.clientWidth;
+
+                document.documentElement.style.fontSize = c / 7.5 + 'px'
+            }
+
+            b();
+            a(window, 'resize', b)
+        }());
+    </script>
+</head>
+<body>
+<div class="bui-page">
+    <header class="bui-bar header-bar">
+        <div class="bui-bar-left">
+            <a class="bui-btn btn-back" onClick="javascript :history.go(-1);">
+                <i class="icon-back"></i></a>
+        </div>
+        <div class="bui-bar-main">添加车辆</div>
+        <div class="bui-bar-right">
+        </div>
+    </header>
+<div class="vi-1">
+    <div class="vi-2 clearfix">
+        <p class="vi-3 fl">车牌号码</p>
+        <div class="fl">
+            <p class="vi-4 vi-6" id="toKeyboard">浙</p>
+        </div>
+        <div class="add_btn">
+            <button class="bui-btn true-btn">确定</button>
+        </div>
+    </div>
+</div>
+<div class="keyboardMask">
+    <!--虚拟的input-->
+    <ul class="virtualInput">
+        <li class="vi_active"></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+    </ul>
+</div>
+</div>
+<script src="/static/lib/jquery-3.4.1.min.js"></script>
+<script>
+    $(window).on('load',function () {
+        $('#toKeyboard').on('click',function(){
+            $('.keyboardMask').css('display','block');
+        });
+        $('#keyboard_5xbogf8c_city').on('click',function(event){
+            event.stopPropagation();
+        });
+        //渲染城市键盘
+        var cityData=[
+            '京','津','冀','晋','辽','蒙','吉','黑',
+            '沪','苏','浙','皖','闽','赣','鲁','豫',
+            '鄂','湘','粤','桂','琼','渝','川','贵',
+            '云','陕','甘','青','宁','新','藏','使',
+        ];
+        var html='';
+        html="<ul id='keyboard_5xbogf8c_city'>";
+        for(var i=0;i<cityData.length;i++){
+            html=html+'<li>'+cityData[i]+'</li>';
+        }
+        html=html+'</ul>';
+        $(".keyboardMask").append(html);
+        //为城市键盘按钮绑定事件
+        $('#keyboard_5xbogf8c_city').on('click','li',function(event){
+            event.stopPropagation();
+            $('.virtualInput').find('li').eq(0).html($(this).html());
+            $('.virtualInput').find('li').eq(0).removeClass('vi_active');
+            $('.virtualInput').find('li').eq(1).addClass('vi_active');
+            $('#keyboard_5xbogf8c_city').animate({
+                bottom:"-5rem",
+            },300,function(){
+                $('#keyboard_5xbogf8c').animate({bottom:"0"})
+            });
+        });
+        //渲染字母键盘
+        $(".keyboardMask").append("<ul id='keyboard_5xbogf8c'>"+
+                "<li>1</li>"+
+                "<li>2</li>"+
+                "<li>3</li>"+
+                "<li>4</li>"+
+                "<li>5</li>"+
+                "<li>6</li>"+
+                "<li>7</li>"+
+                "<li>8</li>"+
+                "<li>9</li>"+
+                "<li class='noMarginRinght'>0</li>"+
+                "<li>Q</li>"+
+                "<li>W</li>"+
+                "<li>E</li>"+
+                "<li>R</li>"+
+                "<li>T</li>"+
+                "<li>Y</li>"+
+                "<li>U</li>"+
+                "<li>I</li>"+
+                "<li>O</li>"+
+                "<li class='noMarginRinght'>P</li>"+
+                "<li class='letterA'>A</li>"+
+                "<li>S</li>"+
+                "<li>D</li>"+
+                "<li>F</li>"+
+                "<li>G</li>"+
+                "<li>H</li>"+
+                "<li>J</li>"+
+                "<li>K</li>"+
+                "<li class='noMarginRinght'>L</li>"+
+                "<li class='letterZ'>Z</li>"+
+                "<li>X</li>"+
+                "<li>C</li>"+
+                "<li>V</li>"+
+                "<li>B</li>"+
+                "<li>N</li>"+
+                "<li>M</li>"+
+                "<span class='delete'>X</span>"+
+                "</ul>");
+        //最开始隐藏字母键盘上面的数字
+        hideNumber();
+        //字母键盘按钮绑定事件
+        $('#keyboard_5xbogf8c li').bind('click',function(event){
+            if($('.delete').hasClass('clicked')){ //修复在删除键删除最后一个字符时由于键盘切换导致按太快会输入其它字符问题
+                return false;
+            }
+            event.stopPropagation();
+            var index=$('.vi_active').index();
+            if(index==1){
+                $('.virtualInput').find('li').eq(1).html($(this).html());
+                $('.virtualInput').find('li').eq(1).removeClass('vi_active');
+                $('.virtualInput').find('li').eq(3).addClass('vi_active');
+                $('.vi_numberHide').removeClass('vi_numberHide');
+            }else if(index>=7){
+                $('.virtualInput').find('li').eq(index).html($(this).html());
+                setTimeout(function(){
+                    var carNum=carNumber();
+                    $('#toKeyboard').html(carNum);
+                    $('.keyboardMask').css('display','none');
+                },500);
+            }
+            else{
+                $('.virtualInput').find('li').eq(index).html($(this).html());
+                $('.vi_active').removeClass('vi_active');
+                $('.virtualInput').find('li').eq(index+1).addClass('vi_active');
+            }
+        });
+        //得到输入的车牌号
+        function carNumber(){
+            var html='';
+            $('.virtualInput li').each(function(){
+                html+= $(this).html();
+            });
+            return html;
+        }
+        //隐藏键盘中数字
+        function hideNumber(){
+            for(var i=0;i<10;i++){
+                $('#keyboard_5xbogf8c li').eq(i).addClass('vi_numberHide');
+            }
+        }
+        //删除按钮
+        $('.keyboardMask').on('click','.delete',function(event){
+            event.stopPropagation();
+            if($(this).hasClass('clicked')){
+                return false;
+            }
+            $(this).addClass('clicked');
+            var index=$('.vi_active').index();
+            if(index<=0){
+                $('.virtualInput').find('li').eq(index).html('');
+                $(this).removeClass('clicked');
+            }else{
+                $('.virtualInput').find('li').eq(index).html('');
+                $('.vi_active').removeClass('vi_active');
+                if(index==3){
+                    hideNumber();
+                    $('.virtualInput').find('li').eq(index-2).addClass('vi_active');
+                    $(this).removeClass('clicked');
+                }else if(index==1){
+                    $('#keyboard_5xbogf8c').animate({
+                        bottom:"-5rem",
+                    },300,function(){
+                         $('#keyboard_5xbogf8c_city').animate({bottom: "0"},300,function(){
+                            $('.delete').removeClass('clicked');
+                        });
+                    });
+                    $('.virtualInput').find('li').eq(index-1).addClass('vi_active');
+                }else{
+                    $('.virtualInput').find('li').eq(index-1).addClass('vi_active');
+                    $(this).removeClass('clicked');
+                }
+            }
+
+        });
+
+        $('.true-btn').click(function () {
+            var p = $('#toKeyboard').html();
+            if(p.length==7)
+                window.location.href = '{% url 'car_save' %}'+'?value='+p;
+            else
+                alert('车牌格式错误，请重新输入');
+        });
+    })
+</script>
+</body>
+</html>

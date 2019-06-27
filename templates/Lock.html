@@ -1,0 +1,256 @@
+<!DOCTYPE HTML>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>停车开锁</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no">
+		<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/buijs/lib/latest/bui.css">
+		<script src="https://cdn.jsdelivr.net/npm/buijs/lib/zepto.js"></script>
+		<script src="https://cdn.jsdelivr.net/npm/buijs/lib/latest/bui.js"></script>
+		<style></style>
+	</head>
+	<body>
+
+<style type="text/css">
+  .btn_tooth {
+    display: inline-block;
+    width:30%;
+    margin:.5rem .10rem;
+    padding: .2rem;
+    border-radius: 5px;
+  }
+    .mid{
+        background-color: white;
+        width: 80%;
+        margin-top: 20px;
+        padding: .2rem;
+        font-size: x-large;
+    }
+
+    /* 顶部圆环 */
+    .header-img{
+        height: 5.4rem;
+        background-color: #00bcd4;
+    }
+    /*圆圈旋转动画*/
+    .round-animate {
+        width: 4rem;
+        height: 4rem;
+        overflow: hidden;
+        margin: 0 auto;
+        position: relative;
+    }
+    .round-animate img{
+        max-width: 100%;
+        max-height: 100%;
+        vertical-align: top;
+    }
+    .round-animate .round-scan-light ,
+    .round-animate .round-scan ,
+    .round-animate .round-light ,
+    .round-animate .round-inner ,
+    .round-animate .round-outer {
+        width: 100%;
+        height: 100%;
+        background: url("/static/images/round/round-outer.png") center no-repeat;
+        background-size: auto 100%;
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        z-index: 10;
+    }
+    .round-animate .round-light {
+        background-image: url("/static/images/round/round-light.png");
+    }
+    /* .round-animate .round-inner {
+        background-image: url("images/round/round-inner.png");
+    } */
+    .round-animate .round-scan {
+        background-image: url("/static/images/round/round-scan.png");
+    }
+    .round-animate .round-scan-light {
+        background-image: url("/static/images/round/round-scan-light.png");
+    }
+    /*动画CSS*/
+    .animate-rotation{
+      -webkit-animation:rotate 30s infinite linear;
+      animation:rotate 30s infinite linear;
+    }
+
+    .animate-rotation-reverse{
+      -webkit-animation:rotateReverse 4s infinite ease-out;
+      animation:rotateReverse 4s infinite  ease-out;
+    }
+    .animate-rotation-inner{
+      -webkit-animation:rotateReverse 8s infinite linear;
+      animation:rotateReverse 8s infinite linear;
+    }
+    .animate-zoom{
+      -webkit-animation:zoom 1s infinite ease-out;
+      animation:zoom 1s infinite  ease-out ;
+    }
+    .animate-translateY{
+      -webkit-animation:translateY 4s infinite ease-out;
+      animation:translateY 4s infinite  ease-out ;
+    }
+
+    @-webkit-keyframes rotate{
+      0%{ -webkit-transform:rotate(0deg);}
+      100%{-webkit-transform:rotate(-360deg);}
+    }
+    @keyframes rotate{
+      0%{ -webkit-transform:rotate(0deg);}
+      100%{-webkit-transform:rotate(-360deg);}
+    }
+    @-webkit-keyframes rotateReverse{
+      0%{ -webkit-transform:rotate(0deg);}
+      100%{-webkit-transform:rotate(360deg);}
+    }
+    @keyframes rotateReverse{
+      0%{ -webkit-transform:rotate(0deg);}
+      100%{-webkit-transform:rotate(360deg);}
+    }
+    @-webkit-keyframes zoom{
+      0%{ -webkit-transform:scale(0.9);}
+      70%{ -webkit-transform:scale(1);}
+      100%{-webkit-transform:scale(0.9);}
+    }
+    @keyframes zoom{
+      0%{ -webkit-transform:scale(0.9);}
+      70%{ -webkit-transform:scale(1);}
+      100%{-webkit-transform:scale(0.9);}
+    }
+    @-webkit-keyframes translateY{
+      0%{ -webkit-transform:translateY(0);}
+      30%{ -webkit-transform:translateY(30px);}
+      80%{-webkit-transform:translateY(-20px);}
+      100%{-webkit-transform:translateY(0);}
+    }
+    @keyframes translateY{
+      0%{ -webkit-transform:translateY(0);}
+      30%{ -webkit-transform:translateY(30px);}
+      80%{-webkit-transform:translateY(-20px);}
+      100%{-webkit-transform:translateY(0);}
+    }
+</style>
+<div class="bui-page">
+	<header class="bui-bar">
+		<div class="bui-bar">
+			<div class="bui-bar-left">
+                <a class="bui-btn" onclick="bui.back();"><i class="icon-back"></i></a>
+			</div>
+			<div class="bui-bar-main">开锁停车</div>
+			<div class="bui-bar-right">
+			</div>
+		</div>
+	</header>
+
+	<main>
+      <!-- 圆 -->
+      <div class="header-img bui-box-center">
+          <div class="round-animate">
+              <div class="round-outer animate-rotation"></div>
+              <div class="round-inner animate-rotation-inner"></div>
+              <div class="round-light animate-rotation-reverse"></div>
+              <div class="round-main">
+                  <div class="round-scan animate-zoom"></div>
+                  <div class="round-scan-light animate-translateY"></div>
+              </div>
+          </div>
+      </div>
+        <div align="center">
+            <div class="mid" align="center">
+                锁状态：{% if status == True %}已锁上{% else %}已解锁{% endif %}
+            </div>
+            <div style="width: 100%;" align="center">
+
+                {% if status == True %}
+                    <button class=" btn_tooth" id="btnOpen">解锁</button>
+                {% else %}
+                    <button class=" primary btn_tooth" id="btnClock">结束订单</button>
+                {% endif %}
+            </div>
+        </div>
+
+  </main>
+
+  <footer>
+        <!-- 底部d导航栏 -->
+        <ul class="bui-nav">
+            <li class="bui-btn bui-box-vertical">
+                <a href="{% url 'index' %}">
+                    <i class="icon-home"></i>
+                    <div class="span1">首页</div>
+                </a>
+            </li>
+            <li class="bui-btn bui-box-vertical active"><i class="icon">&#xe67a;</i>
+                <a href="{% url 'center' %}" ><div class="span1">我的</div></a>
+            </li>
+        </ul>
+    </footer>
+</div>
+
+<script>
+  bui.ready(function(){
+
+
+  $('#btnClock').on("click",function  (argument) {
+      //bui.alert("结束订单？");
+      if(confirm("是否结束订单？")==true){
+          setTimeout(function () {
+              $.post('{% url "lock_stop" %}',{pid: '{{ parkid }}', oid: '{{ orderid }}'}, function (data,status) {
+                  //alert(data);  //ok
+                  //alert(status);  //success
+                  if(status == 'success' && data == 'ok'){
+                      bui.confirm({
+                          "title": "",
+                          "height": 460,
+                          "content": '<div class="bui-box-center"><div><i class="icon-successfill success"></i><h3>'+data+'</h3></div></div>',
+                          "buttons": [{ name: "我知道了", className: "primary-reverse" }]
+                      });
+                  }else{
+                      alert("出错了");
+                  }
+                  setTimeout(function () {
+                      window.location.href = '{% url "wallet_datail" %}';
+                  }, 500);
+
+              });
+          }, 1500);
+      }
+  })
+  $('#btnOpen').on("click",function  (argument) {
+      //bui.alert("请扫描停车桩上的二维码");
+      if(confirm("请扫描停车桩上的二维码")==true){
+          setTimeout(function () {
+              $.post('{% url "lock_start" %}',{pid: '{{ parkid }}', oid: '{{ orderid }}'}, function (data,status) {
+                  //alert(data);  //ok
+                  //alert(status);  //success
+                  if(status == 'success' && data == 'ok'){
+                      bui.confirm({
+                          "title": "",
+                          "height": 460,
+                          "content": '<div class="bui-box-center"><div><i class="icon-successfill success"></i><h3>开始计费</h3></div></div>',
+                          "buttons": [{ name: "我知道了", className: "primary-reverse" }]
+                      });
+                  }else{
+                      alert("出错了");
+                  }
+                  setTimeout(function () {
+                      window.location.reload();
+                  }, 500);
+              });
+          }, 1500);
+      }
+  })
+
+  var pageview = {};
+    return pageview;
+
+})
+
+</script>
+</body>
+</html>

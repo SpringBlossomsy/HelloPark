@@ -1,0 +1,156 @@
+ul,li {
+    list-style: none;
+}
+.add_btn {
+    width:100%;
+    height:2rem;
+    position: relative;
+    margin-top:.86rem;
+}
+.true-btn {
+    position: absolute;
+    bottom: 0;
+    background: orange;
+    border-radius: 5px;
+    width:70%;
+    color:#fff;
+}
+/*最开始的input样式*/
+.vi-1{background: #ffffff;}
+.vi-2{border-bottom: 1px solid #dfdfdf;height: 1.1rem;color:#333333;font-size: 0.32rem;line-height: 1.1rem;}
+.vi-3{width: 2.5rem;padding-left: 0.4rem;}
+.vi-4{position: relative;width: 5rem;text-align: left;}
+.vi-6{color: #1da1f2;}
+.vi-6:after {
+    content: " ";
+    display: inline-block;
+    height: 0.15rem;
+    width: 0.15rem;
+    border-width: 2px 2px 0 0;
+    border-color: #c8c8cd;
+    border-style: solid;
+    -webkit-transform: matrix(.71,.71,-.71,.71,0,0);
+    transform: matrix(.71,.71,-.71,.71,0,0);
+    position: relative;
+    top: -2px;
+    position: absolute;
+    top: 50%;
+    margin-top: -0.08rem;
+    right: 0.3rem;
+}
+/*键盘及虚拟input样式*/
+#keyboard_5xbogf8c ,#keyboard_5xbogf8c li  {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+#keyboard_5xbogf8c,#keyboard_5xbogf8c_city{
+    position:fixed;
+    z-index:10;
+    left: 0;
+    width: 100%;
+    padding:0.4rem 0.25rem;
+    background: #d1d5da;
+    border-radius: 0.05em;
+    /*display:none;*/
+    right:0;
+    -webkit-text-size-adjust:none;
+}
+#keyboard_5xbogf8c_city{
+    bottom: 0;
+}
+#keyboard_5xbogf8c{
+    bottom: -5rem;
+}
+#keyboard_5xbogf8c_city{
+    position:fixed;
+    z-index:10;
+    left: 0;
+    width: 100%;
+    padding:0.4rem 0.7rem 0.2rem 0.7rem;
+    background: #d1d5da;
+    border-radius: 0.05em;
+    /*display:none;*/
+    right:0;
+    bottom:0;
+    -webkit-text-size-adjust:none;
+}
+#keyboard_5xbogf8c ::after {
+    content: "";
+    display: table;
+    clear: both;
+}
+#keyboard_5xbogf8c_city li{
+    position:relative;
+    font-family: arial,"Vrinda";
+    width: 11%;
+    height: 0.77rem;
+    line-height: 0.77rem;
+    background-color: #ffffff;
+    border-radius: 0.07rem;
+    float: left;
+    text-align: center;
+    font-size:0.34rem;
+    vertical-align: text-top;
+    margin: 0.7%;
+    margin-bottom: 0.25rem;
+    cursor: pointer;
+    position: relative;
+    overflow:visible ;
+}
+#keyboard_5xbogf8c li{
+    position:relative;
+    font-family: arial,"Vrinda";
+    width: 0.64rem;
+    height: 0.77rem;
+    line-height: 0.77rem;
+    background-color: #ffffff;
+    border-radius: 0.07rem;
+    float: left;
+    text-align: center;
+    font-size:0.34rem;
+    vertical-align: text-top;
+    margin-right: 0.1rem;
+    margin-bottom: 0.25rem;
+    cursor: pointer;
+    position: relative;
+    overflow:visible ;
+}
+#keyboard_5xbogf8c_city li:active {
+    box-shadow: inset 0 0.04em 0 rgba(0,0,0,.5);
+    top:0.08em;
+    color: #ffffff;
+    background: #1da1f2;
+}
+#keyboard_5xbogf8c li:active {
+    box-shadow: inset 0 0.04em 0 rgba(0,0,0,.5);
+    top:0.08em;
+    color: #ffffff;
+    background: #1da1f2;
+}
+.noMarginRinght {
+    margin-right: 0 !important;
+}
+
+.letterA{
+    margin-left: 0.37rem !important;
+}
+.letterZ{
+    margin-left: 1.1rem !important;
+}
+.delete{width: 0.64rem;
+    height: 0.77rem;
+    line-height: 0.77rem;
+    text-align: center;
+    border-radius: 0.07rem;color: #ffffff;margin-right: 0;width:0.9rem;display: block;position: absolute;right: 0;bottom: 0.45rem;margin-right: 0;background: #acb4bf; }
+.delete:active{ box-shadow: inset 0 0.04em 0 rgba(0,0,0,.5);bottom:0.44rem;background: rgba(255, 0, 0, 0.31) ;}
+.keyboardMask{display: none;position: fixed;height: 100%;width: 100%;top:0;left: 0;background: rgba(102, 102, 102, 0.52);z-index: 100;}
+.virtualInput{font-size: 0;position: absolute;top: 1.55rem;}
+.virtualInput li{text-align:center;line-height:0.97rem;font-size: 0.34rem;vertical-align: middle;height: 0.97rem;width: 0.68rem;background: #ffffff;border-radius: 0.06rem;display: inline-block;margin: 0.05rem;}
+.virtualInput li:nth-child(3){margin:0.34rem 0.25rem;height: 0.3rem;width: 0.3rem;border-radius: 50%;}
+.vi_active{border: 1px solid #1da1f2;}
+.vi_numberHide{display: none;}

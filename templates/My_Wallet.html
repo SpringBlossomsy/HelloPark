@@ -1,0 +1,71 @@
+<!DOCTYPE HTML>
+{% load staticfiles %}
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>我的钱包</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no">
+		<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/buijs/lib/latest/bui.css">
+		<script src="https://cdn.jsdelivr.net/npm/buijs/lib/zepto.js"></script>
+		<script src="https://cdn.jsdelivr.net/npm/buijs/lib/latest/bui.js"></script>
+        <link rel="stylesheet" href="{% static 'css/center.css' %}">
+    </head>
+    <style>
+        html {
+            background: rgba(245,245,245,1);
+        }
+
+    </style>
+<body>
+<div class="bui-page">
+    <header class="bui-bar header-bar">
+        <div class="bui-bar-left">
+            <a class="bui-btn btn-back" onClick="javascript :history.go(-1);"><i class="icon-back"></i></a>
+        </div>
+        <div class="bui-bar-main">余额</div>
+    </header>
+    <main style="height:85%">
+        <div class="personal-header">
+            {% if user.is_authenticated %}
+                <p style="font-size: 35px;"><i class="iconfont">&#xe61e;</i>{{ money }}</p>
+            {% else %}
+                <p style="font-size: 35px;"><i class="iconfont">&#xe61e;</i>0.00</p>
+            {% endif %}
+        </div>
+
+        <ul class="bui-list nav-list">
+            <li class="bui-btn bui-box">
+                <div class="icon"><i class="iconfont icon-red">&#xe669;</i></div>
+                <div class="span1"><a href="{% url 'wallet_invest' %}" >充值</a></div>
+                <i class="icon-listright"></i>
+            </li>
+            <li class="bui-btn bui-box ">
+                <div class="icon"><i class="iconfont icon-green">&#xe669;</i></div>
+                <div class="span1">提现</div>
+                <i class="icon-listright"></i>
+            </li>
+            <li class="bui-btn bui-box ">
+                <div class="icon"><i class="iconfont icon-yellow">&#xe708;</i></div>
+                <div class="span1"><a href="{% url 'wallet_datail' %}" >明细</a></div>
+                <i class="icon-listright"></i>
+            </li>
+        </ul>
+    </main>
+
+    <footer>
+        <!-- 底部d导航栏 -->
+        <ul class="bui-nav">
+            <li class="bui-btn bui-box-vertical">
+                <a href="{% url 'index' %}">
+                    <i class="icon-home"></i>
+                    <div class="span1">首页</div>
+                </a>
+            </li>
+            <li class="bui-btn bui-box-vertical active"><i class="icon">&#xe67a;</i>
+                <a href="{% url 'center' %}" ><div class="span1">我的</div></a>
+            </li>
+        </ul>
+    </footer>
+</div>
+</body>
+</html>

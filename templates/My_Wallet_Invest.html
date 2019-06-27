@@ -1,0 +1,105 @@
+<!DOCTYPE HTML>
+{% load staticfiles %}
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>我的钱包</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no">
+		<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/buijs/lib/latest/bui.css">
+		<script src="https://cdn.jsdelivr.net/npm/buijs/lib/zepto.js"></script>
+		<script src="https://cdn.jsdelivr.net/npm/buijs/lib/latest/bui.js"></script>
+        <link rel="stylesheet" href="{% static 'css/center.css' %}">
+        <style>
+            html {
+                background: rgba(245,245,245,1);
+            }
+            .personal-header {
+                font-size: .32rem;
+                text-align: center;
+                color:#fff;
+            }
+            .personal-header input[type='text'] {
+                border-radius: 5px;
+                width:50%;
+                vertical-align: baseline;
+
+            }
+            .explain {
+                margin:.4rem .2rem;
+                font-size: .32rem;
+                text-align: left;
+            }
+            .next {
+                margin: .3rem 0;
+                width: 90%;
+                margin-left: 5%;
+            }
+            .next input{
+                background: #ff9e9e;
+                color:rgba(255,255,255,1);
+                font-weight: 350;
+                border: 1px solid orange;
+                border-radius: 5px;
+                width:100%;
+                height: 1rem;
+                text-align: center;
+                cursor: pointer;
+                font-size: .32rem;
+            }
+        </style>
+	</head>
+<body>
+<div class="bui-page">
+        <header class="bui-bar header-bar">
+                <div class="bui-bar-left">
+                    <a class="bui-btn btn-back" onClick="javascript :history.go(-1);"><i class="icon-back"></i></a>
+                </div>
+                <div class="bui-bar-main">我要充值</div>
+                <div class="bui-bar-right">
+                </div>
+            </header>
+    <main>
+        <div class="personal-header">
+            <span>充值金额￥</span>
+            <input type="text" id="money" name="money" style="color: black">
+        </div>
+        <div class="explain">
+            <p>充值说明</p>
+            <p>1. 充值金额只能在此平台使用，不能用于其他平台。</p>
+            <p>2. 充值金额无使用期限，充值成功后，可提现。</p>
+            <p>3. 使用微信或支付宝系统在线充值。</p>
+            <p>4. 如遇到无法充值，充值失效等问题，可联系<strong><a href="javasecript:;">客服</a></strong>解决您的问题。</p>
+        </div>
+        <div class="next">
+            <input type="button" id="nexts" value="下一步">
+        </div>
+    </main>
+</div>
+
+
+<script>
+    $(function () {
+        $('#nexts').click(function () {
+            var num = $('#money').val();
+            if(!isNaN(num) && num != ""){
+                window.location.href = '/park/wallet_pay/'+num+'/';
+                //相对路径根据自己网页的实际情况调整
+                /*var playerId = "test-player-" + new Date().getTime() + "-" + Math.floor(Math.random() *1000);
+                var url = "{% url 'ddpay' %}";  //相对路径根据自己网页的实际情况调整
+                url += "?playerId=" + playerId;  //订单ID （兼容旧的接口，所以名称延用playerId）
+                url += "&payTo=" + "alipay_any";
+                url += "&appId=" + "fa6s89KLSDsdfvs3de4546SFf7s8jlka";//玎玎支付提供的appId:fa6s89KLSDsdfvs3de4546SFf7s8jlka
+                url += "&goodsName=" + "测试支付宝任意金额（转账）";
+                url += "&alipayRealName=" + "某某某";
+                url += "&goodsPrice=" + 30;
+                url += "&succOpenUrl=" + "127.0.0.1:8000/park/wallet/";
+                window.location.href = url;*/
+            }
+        });
+    });
+</script>
+
+
+
+</body>
+</html>

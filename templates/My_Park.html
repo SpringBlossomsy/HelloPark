@@ -1,0 +1,201 @@
+<!DOCTYPE HTML>
+{% load staticfiles %}
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>我的车位</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=yes">
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/buijs/lib/latest/bui.css">
+		<script src="https://cdn.jsdelivr.net/npm/buijs/lib/zepto.js"></script>
+		<script src="https://cdn.jsdelivr.net/npm/buijs/lib/latest/bui.js"></script>
+        <link rel="stylesheet" href="/static/css/center.css">
+    </head>
+    <style>
+    html{
+        background: rgba(245,245,245,1);
+        height: 100%;
+    }
+    body{
+        overflow-y: auto;
+    }
+    .row{
+        width: 100%;
+        text-align: center;
+        margin-top: .86rem;
+    }
+    .row image{
+        width: 1.2rem;
+    }
+    .noCarStop{
+        margin-top: 30px;
+        font-size: 36px;
+        color: gray;
+    }
+    .rows{
+        width: 100%;
+        text-align: center;
+        margin-top: .86rem;
+    }
+    .rows img {
+        width: 70%;
+        height:1.2rem;
+        cursor: pointer;
+    }
+    .box{
+        width: 100%;
+        display: flex;
+        align-items: center;
+        background: rgba(255,255,255,1);
+        border-bottom: 1px solid rgba(245,245,245,1);
+        padding: 10px 0;
+    }
+    .time{
+        padding-left: 40px;
+        width: 50%;
+        text-align: left;
+        font-size: .34rem;
+        color:#000;
+    }
+    .moneys{
+        display:inline-block;
+        padding-left: 40px;
+        width: 50%;
+        text-align: left;
+        font-size: .34rem;
+    }
+    .howTime{
+        width: 50%;
+        text-align: right;
+        padding-right: 40px;
+        font-size: .32rem;
+        color: gray;
+    }
+    .right{
+        font-size: .32rem;
+        padding-left: 20px;
+        padding-bottom: 3px;
+    }
+    .moneyIcon{
+        padding-left: 20px;
+    }
+    .hours{
+        width: 25%;
+        text-align: right;
+        padding-right: 40px;
+        font-size: .32rem;
+    }
+    .box input{
+        width: 50%;
+        font-size: .32rem;
+    }
+    .placeholder{
+        font-size: .32rem;
+    }
+    .sure{
+        margin-top: .5rem;
+        width: 90%;
+        margin-left: 5%;
+    }
+    .sure button{
+        background: #ff9e9e;
+        color:rgba(255,255,255,1);
+        font-weight: 350;
+        border: 1px solid orange;
+        border-radius: 5px;
+        width:100%;
+        height: 1rem;
+        text-align: center;
+        cursor: pointer;
+        font-size: .32rem;
+    }
+    .time-picker {
+        font-size: .32rem;
+        width: 50%;
+        text-align: right;
+        padding-right: 30px;
+    }
+    .choose_time {
+        width:80%;
+    }
+    .box button {
+        width:2.2rem;
+        height:.7rem;
+        border: 1px solid #eee;
+        background: #f3f3f3;
+        border-radius: 5px;
+    }
+    </style>
+<body>
+<div class="bui-page">
+    <header class="bui-bar header-bar">
+        <div class="bui-bar-left">
+            <a class="bui-btn btn-back" onClick="javascript :history.go(-1);"><i class="icon-back"></i></a>
+        </div>
+        <div class="bui-bar-main">我的车位</div>
+        <div class="bui-bar-right">
+        </div>
+    </header>
+    <main>
+    {% if seats %}
+        {% for t in seats %}
+            <div style="margin: 5px">
+            <input type="hidden" value="{{ t.4 }}">
+            <div class='box'>
+                <div class='time'>出租时间</div>
+                <div>{{ t.3 }}</div>
+            </div>
+            <div class='box'>
+                <div class='time'>车位信息</div>
+                <div>{{ t.0 }}:{{ t.1 }}</div>
+            </div>
+            <div class='box'>
+                <div class='moneys'>出租价格
+                <i class='moneyIcon'>¥</i>
+                </div>
+                <input type='number' bindinput='priceVal' value="{{ t.2 }}" placeholder-class='placeholder' disabled>
+                <div class='hours'>/小时</div>
+            </div>
+            <div class='box'>
+                <div class='time'>审核状态</div>
+                <div>{{ t.5 }}</div>
+            </div>
+            <div class='box'>
+                <a href="{% url 'park_detail' t.4 %}" style="margin-left: 10px"><button>修改信息</button></a>
+                {% if t.5 == '审核通过' %}
+                    <a href="{% url 'self_lock' t.4 %}" style="margin-left: 10px"><button>车位锁管理</button></a>
+                {% endif %}
+            </div>
+            </div>
+        {% endfor %}
+            <div class='sure'>
+                <a href="{% url 'add_park' %}"><button>增加</button></a>
+            </div>
+    {% else %}
+        <div class='row'>
+            <img src='{% static 'images/myCar.png' %}'>
+            <div class='noCarStop'>暂无车位</div>
+            </div>
+        <div class='rows'>
+            <a href="{% url 'add_park' %}">
+                <img src='{% static 'images/nowAdd.png' %}'>
+            </a>
+        </div>
+    {% endif %}
+    </main>
+    <footer style="position: fixed;bottom: 0;width:100%;">
+        <!-- 底部d导航栏 -->
+        <ul class="bui-nav">
+            <li class="bui-btn bui-box-vertical">
+                <a href="{% url 'index' %}">
+                    <i class="icon-home"></i>
+                    <div class="span1">首页</div>
+                </a>
+            </li>
+            <li class="bui-btn bui-box-vertical active"><i class="icon">&#xe67a;</i>
+                <a href="{% url 'center' %}" ><div class="span1">我的</div></a>
+            </li>
+        </ul>
+    </footer>
+</div>
+</body>
+</html>

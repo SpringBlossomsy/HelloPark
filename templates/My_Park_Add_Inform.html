@@ -1,0 +1,282 @@
+<!DOCTYPE HTML>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>车位信息</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no">
+		<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/buijs/lib/latest/bui.css">
+		<script src="https://cdn.jsdelivr.net/npm/buijs/lib/zepto.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/buijs/lib/latest/bui.js"></script>
+        <link rel="stylesheet" href="/static/css/center.css">
+        <style>
+            .info-list {
+                margin-bottom: .86rem;
+            }
+        </style>
+	</head>
+	<body>
+	<style>
+    /*选中的值右边对齐*/
+    .bui-select-form .bui-box .span1 {
+        text-align: right;
+    }
+</style>
+<div class="bui-page">
+	<header class="bui-bar header-bar">
+		<div class="bui-bar-left">
+			<a class="bui-btn" onclick="bui.back();"><i class="icon-back"></i></a>
+		</div>
+		<div class="bui-bar-main">车位信息</div>
+		<div class="bui-bar-right">
+		</div>
+	</header>
+	<main>
+        <ul class="bui-list bui-select-form info-list">
+            <li class="bui-btn-title">位置信息</li>
+            <li class="bui-btn bui-box">
+                <div class="container-xy">
+                    <div id="btnOpenPrompt">*位置信息</div>
+                </div>
+                <div class="span1">{{ poiaddress }}</div>
+                <i class="icon-listright"></i>
+            </li>
+            <li class="bui-btn-title">*详细位置说明</li>
+            <li class="bui-btn bui-box">
+                <textarea name="informs" id="informs" cols="45" rows="10"></textarea>
+            </li>
+            <li class="bui-btn-title">*选择开放时间</li>
+            <li class="bui-btn bui-box" id="select" >
+                <label>请选择时间</label>
+                <div class="span1" id="choiceTime"></div>
+                <i class="icon-listright"></i>
+            </li>
+            <li class="bui-btn-title">*请输入每小时单价</li>
+            <li class="bui-btn bui-box">
+                <div class="container-xy">
+                    <div id="btnOpenPrompt">单价</div>
+                </div>
+                <div class="span1"><input type="text" name="price" id="price"></div>
+                <i class="icon-listright"></i>
+            </li>
+        </ul>
+        <button class="bui-btn" id="confirm">确定</button>
+    </main>
+
+</div>
+
+<!-- select 静态弹出自定义框 放在body层-->
+<div id="select-dialog" class="bui-dialog" style="display:none;" >
+  <div class="bui-dialog-head bui-box-align-middle">
+  	<div class="span1">请选择时间</div>
+  	<div id="makeSure" class="bui-btn primary round">确定</div>
+  </div>
+  <div class="bui-dialog-main">
+    <div class="bui-list">
+      <div class="bui-btn-title">
+      	车位可用时间
+      </div>
+      <div class="bui-btn bui-btn-line bui-box">
+        <div class="span1">00:00-02:00</div>
+        <input id="check-1" type="checkbox" class="bui-choose" value="11" text="广东">
+      </div>
+      <div class="bui-btn bui-btn-line bui-box">
+        <div class="span1">02:00-04:00</div>
+        <input id="check-2" type="checkbox" class="bui-choose" value="22" text="广西">
+      </div>
+      <div class="bui-btn-title">
+      	车位可用时间
+      </div>
+      <div class="bui-btn bui-btn-line bui-box">
+        <div class="span1">04:00-06:00</div>
+        <input id="check-3" type="checkbox" class="bui-choose" value="33" text="北京">
+      </div>
+      <div class="bui-btn bui-btn-line bui-box">
+        <div class="span1">06:00-08:00</div>
+        <input id="check-4" type="checkbox" class="bui-choose" value="44" text="南京">
+      </div>
+      <div class="bui-btn bui-btn-line bui-box">
+        <div class="span1">08:00-10:00</div>
+        <input id="check-5" type="checkbox" class="bui-choose" value="44" text="南京">
+      </div>
+      <div class="bui-btn bui-btn-line bui-box">
+        <div class="span1">10:00-12:00</div>
+        <input id="check-6" type="checkbox" class="bui-choose" value="33" text="北京">
+      </div>
+      <div class="bui-btn bui-btn-line bui-box">
+        <div class="span1">12:00-14:00</div>
+        <input id="check-7" type="checkbox" class="bui-choose" value="44" text="南京">
+      </div>
+      <div class="bui-btn bui-btn-line bui-box">
+        <div class="span1">14:00-16:00</div>
+        <input id="check-8" type="checkbox" class="bui-choose" value="44" text="南京">
+      </div>
+      <div class="bui-btn bui-btn-line bui-box">
+        <div class="span1">16:00-18:00</div>
+        <input id="check-9" type="checkbox" class="bui-choose" value="33" text="北京">
+      </div>
+      <div class="bui-btn bui-btn-line bui-box">
+        <div class="span1">18:00-20:00</div>
+        <input id="check-10" type="checkbox" class="bui-choose" value="44" text="南京">
+      </div>
+      <div class="bui-btn bui-btn-line bui-box">
+        <div class="span1">20:00-22:00</div>
+        <input id="check-11" type="checkbox" class="bui-choose" value="44" text="南京">
+      </div>
+      <div class="bui-btn bui-btn-line bui-box">
+        <div class="span1">22:00-24:00</div>
+        <input id="check-12" type="checkbox" class="bui-choose" value="44" text="南京">
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>bui.ready(function(){
+
+    //动态绑定
+    var uiSelect = bui.select({
+        trigger: "#select",
+        title: "请选择车位可用时间",
+        type: "checkbox",
+        data: [{
+            "name": "00:00-02:00",
+            "value": "11"
+        }, {
+            "name": "02:00-04:00",
+            "value": "22"
+        }, {
+            "name": "04:00-06:00",
+            "value": "33"
+        }, {
+            "name": "06:00-08:00",
+            "value": "44"
+        }, {
+            "name": "08:00-10:00",
+            "value": "55"
+        }, {
+            "name": "10:00-12:00",
+            "value": "66"
+        }, {
+            "name": "12:00-14:00",
+            "value": "77"
+        }, {
+            "name": "14:00-16:00",
+            "value": "88"
+        }, {
+            "name": "16:00-18:00",
+            "value": "99"
+        }, {
+            "name": "18:00-20:00",
+            "value": "100"
+        }, {
+            "name": "20:00-22:00",
+            "value": "111"
+        }, {
+            "name": "22:00-24:00",
+            "value": "122"
+        }],
+        value: ["12:00-14:00","18:00-20:00"],
+        //如果需要点击再进行操作,增加按钮
+        buttons: [{ name: "重置", className: "" }, { name: "确定", className: "primary-reverse" }],
+        callback: function(e) {
+
+            var text = $(e.target).text();
+            if (text == "重置") {
+                uiSelect.selectNone();
+            } else {
+                uiSelect.hide();
+            }
+        },
+        onChange: function(argument) {
+            console.log("312312")
+        }
+    })
+
+    // 清空数据
+    // uiSelect.option("data", [])
+
+    //静态自定义绑定
+    var uiSelect2 = bui.select({
+        id: "#select-dialog",
+        trigger: "#select2",
+        type: "radio",
+        effect: "fadeInRight",
+        position: "right",
+        fullscreen: true,
+        mask: false,
+        buttons: []
+    });
+
+    // 自定义确定按钮事件
+    $("#makeSure").on("click", function() {
+        console.log(uiSelect2.value())
+        uiSelect2.hide();
+    });
+
+})
+bui.ready(function(){
+
+$("#btnOpenPrompt").on("click",function (argument) {
+   var uiPrompt = bui.prompt("请输入位置",function(e){
+           var text = $(e.target).text();
+           if( text == "取消"){
+               this.close();
+           }else{
+               if( this.value() ){
+                   // 获取输入的值
+                   bui.hint(this.value());
+                   this.close();
+               }else{
+                   bui.hint("位置信息不能为空");
+               }
+           }
+       })
+})
+
+
+})
+    $('#confirm').click(function () {
+        var informs = $('#informs').val();
+        var choiceTime = $('#choiceTime').html();
+        var price = $('#price').val();
+        //alert(informs+' '+choiceTime+'  '+price);
+        if(!isNaN(price) && price != "" && choiceTime != ""){
+            $.post('/park/park_save/',{
+                'informs': informs, 'choiceTime': choiceTime, 'price': price,
+                'lat': '{{ lat }}', 'lng': '{{ lng }}', 'poiaddress': '{{ poiaddress }}'
+            });
+            window.location.href = '{% url 'park_check' %}';
+        }
+    });
+</script>
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+<!--
+<body>
+
+<div>
+    位置信息：{{ poiaddress }}<br>
+    详细说明：<input type="text" name="name">
+    开放时间选择：
+</div>
+
+<script>
+    $(function () {
+       //计算两点间的距离
+        var start = new qq.maps.LatLng({{ local_lat }}, {{ local_lng }});
+        var endA = new qq.maps.LatLng({{ lat }}, {{ lng }});
+        var distanceA = Math.round(qq.maps.geometry.spherical.computeDistanceBetween(start, endA)*10)/10;
+        alert(distanceA);
+    });
+</script>
+</body>
+-->

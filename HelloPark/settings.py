@@ -135,7 +135,7 @@ MEDIA_ROOT = MEDIA_DIR
 MEDIA_URL = '/media/'
 
 # 未登录以及访问需要验证身份的页面时重定向的页面
-LOGIN_URL = '/accounts/login/'
+LOGIN_URL = '/park/login_yz/'
 
 # 设为True，允许用户注册
 REGISTRATION_OPEN = True

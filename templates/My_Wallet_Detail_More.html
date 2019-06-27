@@ -1,0 +1,55 @@
+<!DOCTYPE HTML>
+<html>
+{% load staticfiles %}
+	<head>
+		<meta charset="utf-8">
+		<title>零钱明细</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no">
+		<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/buijs/lib/latest/bui.css">
+		<script src="https://cdn.jsdelivr.net/npm/buijs/lib/zepto.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/buijs/lib/latest/bui.js"></script>
+        <!-- <script src="../static/js/template-web.js"></script> -->
+        <link rel="stylesheet" href="/static/css/center.css">
+        <link rel="stylesheet" href="/static/fonts/icons/iconfont.css">
+
+        <style>
+            html {
+            background: rgba(245,245,245,1);
+            }
+            .up{
+                height:100px;
+                background: #fff;
+                margin: 10px;
+                padding-top: 25px;
+            }
+        </style>
+	</head>
+	<body>
+
+<div class="bui-page page-store">
+    <header class="bui-bar header-bar">
+        <div class="bui-bar-left">
+            <a class="bui-btn" onclick="bui.back();"><i class="icon-back"></i></a>
+        </div>
+        <div class="bui-bar-main">零钱明细</div>
+        <div class="bui-bar-right">
+        </div>
+    </header>
+    <main>
+        <div>
+            <div class="up" align="center">
+                <strong style="font-size: 22px">{{ detail.source }}</strong><br><br>
+                <i class="iconfont" style="font-size:.38rem">&#xe669;</i>{{ detail.price }}元
+            </div>
+            <div style="background: #fff;margin: 10px;padding: 10px">
+                <p>类型:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{% if detail.status == True %}支出{% else %}收入{% endif %}</p>
+                <p>时间:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{ detail.time }}</p>
+                <p>交易单号:&nbsp;&nbsp;&nbsp;&nbsp;{{ detail.id }}</p>
+                <p>备注:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{ detail.note }}</p>
+            </div>
+        </div>
+    </main>
+
+</div>
+</body>
+</html>

@@ -1,0 +1,126 @@
+<!DOCTYPE HTML>
+{% load staticfiles %}
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>绑定车辆</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no">
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/buijs/lib/latest/bui.css">
+		<script src="https://cdn.jsdelivr.net/npm/buijs/lib/zepto.js"></script>
+		<script src="https://cdn.jsdelivr.net/npm/buijs/lib/latest/bui.js"></script>
+        <link rel="stylesheet" href="/static/css/center.css">
+    </head>
+    <style>
+    html{
+        background: rgba(245,245,245,1)
+    }
+    .row{
+        width: 100%;
+        text-align: center;
+        margin-top: .86rem;
+    }
+    .row image{
+        width: 1.2rem;
+    }
+    .noCarStop{
+        margin-top: 30px;
+        font-size: 36px;
+        color: gray;
+    }
+    .rows{
+        width: 100%;
+        text-align: center;
+        margin-top: .86rem;
+    }
+    .rows img {
+        width: 70%;
+        height:1.2rem;
+        cursor: pointer;
+    }
+    </style>
+<body>
+<div class="bui-page">
+    <header class="bui-bar header-bar">
+        <div class="bui-bar-left">
+            <a class="bui-btn btn-back" onClick="javascript :history.go(-1);"><i class="icon-back"></i></a>
+        </div>
+        <div class="bui-bar-main">绑定车辆</div>
+        <div class="bui-bar-right">
+        </div>
+    </header>
+    <main>
+    {% if card == '' %}
+        <div class='row'>
+            <img src='{% static 'images/myCar.png' %}'>
+            <div class='noCarStop'>暂未绑定车辆</div>
+            </div>
+        <div class='rows'>
+            <a href="{% url 'car_number' %}">
+            <img src='{% static 'images/addCar.png' %}'>
+            </a>
+        </div>
+    {% else %}
+        <div class="num">
+            <ul id="listview" class="bui-listview">
+                <li>
+                    <div class="bui-btn bui-box-align-top">
+                        <div class="bui-icon primary">
+                            <i class="iconfont">&#xe7d7;</i>
+                        </div>
+                        <div class="span1">
+                            <h3 class="item-title">已有车牌号</h3>
+                            <p class="item-text">{{ card }}</p>
+                        </div>
+                    </div>
+                </li>
+            </ul>
+        </div>
+    {% endif %}
+</main>
+    <footer>
+        <!-- 底部d导航栏 -->
+        <ul class="bui-nav">
+            <li class="bui-btn bui-box-vertical">
+                <a href="{% url 'index' %}">
+                    <i class="icon-home"></i>
+                    <div class="span1">首页</div>
+                </a>
+            </li>
+            <li class="bui-btn bui-box-vertical active"><i class="icon">&#xe67a;</i>
+                <a href="{% url 'center' %}" ><div class="span1">我的</div></a>
+            </li>
+        </ul>
+    </footer>
+</div>
+<script>
+    bui.ready(function(){
+        var uiListview = bui.listview({
+            id: "#listview",
+            data: [{ "text": "删除", "classname": "danger" }],
+            position: "right", //默认就是右边,所以可以不用传
+            callback: function(e) {
+                // this 为滑动出来的操作按钮
+                var $this = $(e.target);
+
+                var text = $this.text();
+                if (text == '删除') {
+                    bui.confirm("确定要删除吗", function(e) {
+                        //this 是指点击的按钮
+                        var text2 = $(e.target).text();
+                        if (text2 == "确定") {
+                            // 执行删除整行操作
+                            window.location.href = '{% url 'car_delete' %}'
+                            /*$this.parents("li").fadeOut(300, function() {
+                                $(this).remove();
+                            });*/
+                        }
+                    })
+                }
+                this.close();
+            }
+        });
+
+    })
+</script>
+</body>
+</html>

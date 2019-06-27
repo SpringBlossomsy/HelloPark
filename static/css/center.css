@@ -103,3 +103,9 @@
         background-position:center;
         background-repeat:no-repeat
     }
+    footer{
+        position: fixed;bottom: 0;width:100%;
+    }
+    main{
+        margin-bottom: 50px;
+    }

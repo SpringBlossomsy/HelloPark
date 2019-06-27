@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+{% load staticfiles %}
+    <head>
+        <meta charset="utf-8">
+		<title>车位详情</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no">
+		<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/buijs/lib/latest/bui.css">
+		<script src="https://cdn.jsdelivr.net/npm/buijs/lib/zepto.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/buijs/lib/latest/bui.js"></script>
+        <link rel="stylesheet" href="/static/css/center.css">
+        <style type="text/css">
+            html{
+                background: rgba(245,245,245,1);
+            }
+            .next {
+                margin: .3rem 0;
+                width: 90%;
+                margin-left: 5%;
+            }
+            .next input{
+                background: #00bcd4;
+                color:rgba(255,255,255,1);
+                font-weight: 350;
+                border: 1px solid #00bcd4;
+                border-radius: 5px;
+                width:100%;
+                height: 1rem;
+                text-align: center;
+                cursor: pointer;
+                font-size: .32rem;
+            }
+            .up{
+                background-color: white;
+                margin: 5px;
+                width: 96%;
+                padding-top: 10px;
+                padding-bottom: 10px;
+            }
+        </style>
+    </head>
+<body>
+<div class="bui-page page-store">
+    <header class="bui-bar header-bar">
+        <div class="bui-bar-left">
+            <a class="bui-btn" onclick="bui.back();"><i class="icon-back"></i></a>
+        </div>
+        <div class="bui-bar-main">车位详情</div>
+        <div class="bui-bar-right">
+        </div>
+    </header>
+    <main>
+        <div class="section-title">车位详细位置</div>
+        <div class="bui-fluid-space-3">
+            <div class="up">
+                {{ parkinfo.pioaddress }}<br>
+                {{ parkinfo.note }}
+            </div>
+        </div>
+        <div class="section-title">每小时单价（元）</div>
+        <div class="bui-fluid-space-3">
+            <div class="up">
+                {{ parkinfo.price }}
+            </div>
+        </div>
+        <div class="section-title">请选择车辆停靠时间</div>
+    {% if timeList and parkinfo.status == '1' %}
+        <form action="{% url 'put_order' %}" method="post" id="form1">
+        <div class="bui-fluid-space-3 mid">
+            {% for t in timeList %}
+            <div class="span1">
+                <input type="checkbox" class="bui-check" name="chongzhi1" value="{{ t }}" check="{{ t }}" uncheck="{{ t }}">
+            </div>
+            {% endfor %}
+        </div>
+        <input type="hidden" id="sum" name="sum_price" value="0.00">
+        <input type="hidden" name="ids" value="{{ parkinfo.id }}">
+        <div class="next">
+            <input type="button" id="nexts" value="提交订单">
+        </div>
+        </form>
+    {% else %}
+        <div class="next">
+            <img src="{% static 'images/myCar.png' %}">
+        </div>
+    {% endif %}
+    </main>
+</div>
+<script>
+    $('#nexts').click(function () {
+        var t = $("input[type='checkbox']:checked").length, price = {{ parkinfo.price }};
+        var sum_price = t*parseInt(price)*2;
+        //alert(sum_price);
+        var msg="预计需要支付"+sum_price+"元。"
+        $('#sum').val(sum_price);
+        if(confirm(msg)==true){
+            $('#form1').submit();
+        }
+    });
+</script>
+</body>
+</html>

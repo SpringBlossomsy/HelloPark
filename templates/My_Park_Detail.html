@@ -1,0 +1,327 @@
+<!DOCTYPE HTML>
+{% load staticfiles %}
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>我的车位</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no">
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/buijs/lib/latest/bui.css">
+		<script src="https://cdn.jsdelivr.net/npm/buijs/lib/zepto.js"></script>
+		<script src="https://cdn.jsdelivr.net/npm/buijs/lib/latest/bui.js"></script>
+        <link rel="stylesheet" href="/static/css/center.css">
+    </head>
+    <style>
+    html{
+        background: rgba(245,245,245,1)
+    }
+    .row{
+        width: 100%;
+        text-align: center;
+        margin-top: .86rem;
+    }
+    .row image{
+        width: 1.2rem;
+    }
+    .noCarStop{
+        margin-top: 30px;
+        font-size: 36px;
+        color: gray;
+    }
+    .rows{
+        width: 100%;
+        text-align: center;
+        margin-top: .86rem;
+    }
+    .rows img {
+        width: 70%;
+        height:1.2rem;
+        cursor: pointer;
+    }
+    .box{
+        width: 100%;
+        display: flex;
+        align-items: center;
+        background: rgba(255,255,255,1);
+        border-bottom: 1px solid rgba(245,245,245,1);
+        padding: 10px 0;
+    }
+    .time{
+        padding-left: 40px;
+        width: 50%;
+        text-align: left;
+        font-size: .34rem;
+        color:#000;
+    }
+    .moneys{
+        display:inline-block;
+        padding-left: 40px;
+        width: 50%;
+        text-align: left;
+        font-size: .34rem;
+    }
+    .howTime{
+        width: 50%;
+        text-align: right;
+        padding-right: 40px;
+        font-size: .32rem;
+        color: gray;
+    }
+    .right{
+        font-size: .32rem;
+        padding-left: 20px;
+        padding-bottom: 3px;
+    }
+    .moneyIcon{
+        padding-left: 20px;
+    }
+    .hours{
+        width: 25%;
+        text-align: right;
+        padding-right: 40px;
+        font-size: .32rem;
+    }
+    .box input{
+        width: 50%;
+        font-size: .32rem;
+    }
+    .placeholder{
+        font-size: .32rem;
+    }
+    .sure{
+        margin-top: .5rem;
+        width: 90%;
+        margin-left: 5%;
+    }
+    .sure button{
+        background: #ff9e9e;
+        color:rgba(255,255,255,1);
+        font-weight: 350;
+        border: 1px solid orange;
+        border-radius: 5px;
+        width:100%;
+        height: 1rem;
+        text-align: center;
+        cursor: pointer;
+        font-size: .32rem;
+    }
+    .time-picker {
+        font-size: .32rem;
+        width: 50%;
+        text-align: right;
+        padding-right: 30px;
+    }
+    .choose_time {
+        width:80%;
+    }
+    .box button {
+        width:2.2rem;
+        height:.7rem;
+        border: 1px solid #eee;
+        background: #f3f3f3;
+        border-radius: 5px;
+    }
+    </style>
+<body>
+<div class="bui-page">
+    <header class="bui-bar header-bar">
+        <div class="bui-bar-left">
+            <a class="bui-btn btn-back" onClick="javascript :history.go(-1);"><i class="icon-back"></i></a>
+        </div>
+        <div class="bui-bar-main">我的车位</div>
+        <div class="bui-bar-right">
+        </div>
+    </header>
+    <main>
+        <div style="margin: 5px">
+            <div class='box'>
+                <div class='time'>出租时间</div>
+                <div>{{ t.4 }}</div>
+            </div>
+            <div class='box'>
+                <div class='time'>请选择新的出租时间</div>
+                <ul class="choose_time">
+                    <li class="bui-btn bui-box " id="select">
+                        <div class="span1" id="choiceTime"></div>
+                        <i class="icon-listright"></i>
+                    </li>
+                </ul>
+            </div>
+            <div class='box'>
+                <div class='time'>车位信息</div>
+                <div>{{ t.1 }}:{{ t.2 }}</div>
+            </div>
+            <div class='box'>
+                <div class='moneys'>出租价格
+                <i class='moneyIcon'>¥</i>
+                </div>
+                <input type='number' bindinput='priceVal' id="price" value="{{ t.3 }}" placeholder-class='placeholder'>
+                <div class='hours'>/小时</div>
+            </div>
+            <div class='box'>
+                <button id="confirm">保存</button>
+            </div>
+        </div>
+    </main>
+
+</div>
+    <div id="select-dialog" class="bui-dialog" style="display:none;" >
+        <div class="bui-dialog-head bui-box-align-middle">
+            <div class="span1">请选择时间</div>
+            <div id="makeSure" class="bui-btn primary round">确定</div>
+        </div>
+        <div class="bui-dialog-main">
+          <div class="bui-list">
+            <div class="bui-btn-title">
+                车位可用时间
+            </div>
+            <div class="bui-btn bui-btn-line bui-box">
+              <div class="span1">00:00-02:00</div>
+              <input id="check-1" type="checkbox" class="bui-choose" value="11" text="广东">
+            </div>
+            <div class="bui-btn bui-btn-line bui-box">
+              <div class="span1">02:00-04:00</div>
+              <input id="check-2" type="checkbox" class="bui-choose" value="22" text="广西">
+            </div>
+            <div class="bui-btn-title">
+                车位可用时间
+            </div>
+            <div class="bui-btn bui-btn-line bui-box">
+              <div class="span1">04:00-06:00</div>
+              <input id="check-3" type="checkbox" class="bui-choose" value="33" text="北京">
+            </div>
+            <div class="bui-btn bui-btn-line bui-box">
+              <div class="span1">06:00-08:00</div>
+              <input id="check-4" type="checkbox" class="bui-choose" value="44" text="南京">
+            </div>
+            <div class="bui-btn bui-btn-line bui-box">
+              <div class="span1">08:00-10:00</div>
+              <input id="check-5" type="checkbox" class="bui-choose" value="44" text="南京">
+            </div>
+            <div class="bui-btn bui-btn-line bui-box">
+              <div class="span1">10:00-12:00</div>
+              <input id="check-6" type="checkbox" class="bui-choose" value="33" text="北京">
+            </div>
+            <div class="bui-btn bui-btn-line bui-box">
+              <div class="span1">12:00-14:00</div>
+              <input id="check-7" type="checkbox" class="bui-choose" value="44" text="南京">
+            </div>
+            <div class="bui-btn bui-btn-line bui-box">
+              <div class="span1">14:00-16:00</div>
+              <input id="check-8" type="checkbox" class="bui-choose" value="44" text="南京">
+            </div>
+            <div class="bui-btn bui-btn-line bui-box">
+              <div class="span1">16:00-18:00</div>
+              <input id="check-9" type="checkbox" class="bui-choose" value="33" text="北京">
+            </div>
+            <div class="bui-btn bui-btn-line bui-box">
+              <div class="span1">18:00-20:00</div>
+              <input id="check-10" type="checkbox" class="bui-choose" value="44" text="南京">
+            </div>
+            <div class="bui-btn bui-btn-line bui-box">
+              <div class="span1">20:00-22:00</div>
+              <input id="check-11" type="checkbox" class="bui-choose" value="44" text="南京">
+            </div>
+            <div class="bui-btn bui-btn-line bui-box">
+              <div class="span1">22:00-24:00</div>
+              <input id="check-12" type="checkbox" class="bui-choose" value="44" text="南京">
+            </div>
+          </div>
+        </div>
+      </div>
+<script>
+bui.ready(function(){
+
+//动态绑定
+var uiSelect = bui.select({
+    trigger: "#select",
+    title: "请选择车位可用时间",
+    type: "checkbox",
+    data: [{
+        "name": "00:00-02:00",
+        "value": "11"
+    }, {
+        "name": "02:00-04:00",
+        "value": "22"
+    }, {
+        "name": "04:00-06:00",
+        "value": "33"
+    }, {
+        "name": "06:00-08:00",
+        "value": "44"
+    }, {
+        "name": "08:00-10:00",
+        "value": "55"
+    }, {
+        "name": "10:00-12:00",
+        "value": "66"
+    }, {
+        "name": "12:00-14:00",
+        "value": "77"
+    }, {
+        "name": "14:00-16:00",
+        "value": "88"
+    }, {
+        "name": "16:00-18:00",
+        "value": "99"
+    }, {
+        "name": "18:00-20:00",
+        "value": "100"
+    }, {
+        "name": "20:00-22:00",
+        "value": "111"
+    }, {
+        "name": "22:00-24:00",
+        "value": "122"
+    }],
+    value: [],
+    //如果需要点击再进行操作,增加按钮
+    buttons: [{ name: "重置", className: "" }, { name: "确定", className: "primary-reverse" }],
+    callback: function(e) {
+
+        var text = $(e.target).text();
+        if (text == "重置") {
+            uiSelect.selectNone();
+        } else {
+            uiSelect.hide();
+        }
+    },
+        onChange: function(argument) {
+            console.log("312312")
+        }
+    })
+
+    // 清空数据
+    // uiSelect.option("data", [])
+
+    //静态自定义绑定
+    var uiSelect2 = bui.select({
+        id: "#select-dialog",
+        trigger: "#select2",
+        type: "radio",
+        effect: "fadeInRight",
+        position: "right",
+        fullscreen: true,
+        mask: false,
+        buttons: []
+    });
+
+    // 自定义确定按钮事件
+    $("#makeSure").on("click", function() {
+        console.log(uiSelect2.value())
+        uiSelect2.hide();
+    });
+})
+    $('#confirm').click(function () {
+        var choiceTime = $('#choiceTime').html();
+        var price = $('#price').val();
+        //alert(choiceTime+'  '+price);
+        if(!isNaN(price) && price != "" && choiceTime != ""){
+            $.post('/park/park_change/',{
+                'choiceTime': choiceTime, 'price': price,'id': {{ t.0 }}
+            });
+            window.location.href = '{% url 'park' %}';
+        }
+    });
+</script>
+</body>
+</html>

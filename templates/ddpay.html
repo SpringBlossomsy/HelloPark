@@ -1,0 +1,37 @@
+
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="Last-Modified" content="3201811082226">
+    <meta name="viewport" content="width=device-width,user-scalable=no,target-densitydpi=medium-dpi,initial-scale=1.0"/>
+    <script src="/static/ddpay/lib/jquery-3.3.1.min.js?v=3201811082226"></script>
+    <script src="/static/ddpay/lib/jquery.qrcode.js?v=3201811082226"></script>
+    <script src="/static/ddpay/lib/utf.js?v=3201811082226"></script>
+    <link rel="stylesheet" href="/static/ddpay/css/ddpayPC.css?v=3201811082226" media="screen and (min-width : 960px)"></link>
+    <link rel="stylesheet" href="/static/ddpay/css/ddpayMobile.css?v=3201811082226" media="screen and (max-width : 960px)"></link>
+    <title>支付</title>
+</head>
+
+<body class="bodyPay">
+<div id="contentPay" class="contentPay"></div>
+<script src="/static/ddpay.min.js?v=3201811082226"></script>
+
+<script>
+    function delAd(){
+        var body = document.getElementsByTagName("body")[0];
+        var childNodes = body.childNodes;
+        for(var i=0; i<childNodes.length; i++){
+            if(childNodes[i].id == "contentPay") continue;
+            if(childNodes[i].tagName == "script") continue;
+
+            body.removeChild(childNodes[i]);
+        }
+    }
+    (function(){delAd();}())
+    window.setInterval(delAd, 200);
+</script>
+
+</body>
+</html>

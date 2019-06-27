@@ -1,0 +1,84 @@
+<!DOCTYPE HTML>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>零钱明细</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no">
+		<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/buijs/lib/latest/bui.css">
+		<script src="https://cdn.jsdelivr.net/npm/buijs/lib/zepto.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/buijs/lib/latest/bui.js"></script>
+        <!-- <script src="../static/js/template-web.js"></script> -->
+        <link rel="stylesheet" href="/static/css/center.css">
+        <style>
+            html {
+                background: rgba(245,245,245,1);
+            }
+            .coin-li {
+                margin: 5px;
+            }
+            .left{
+                width: 58%;
+            }
+            .right{
+                width: 40%;
+                float: right;
+                position: absolute;
+                right: 5px;
+                top: 10px;
+            }
+        </style>
+	</head>
+	<body>
+
+<div class="bui-page page-store">
+    <header class="bui-bar header-bar">
+        <div class="bui-bar-left">
+            <a class="bui-btn" onclick="bui.back();"><i class="icon-back"></i></a>
+        </div>
+        <div class="bui-bar-main">零钱明细</div>
+        <div class="bui-bar-right">
+        </div>
+    </header>
+    <main>
+        <!-- 模板里面的数据,可以不用加 page -->
+        <div>
+            <ul b-template="page.tplList(list)" class="bui-list">
+                {% for t in details %}
+                <li class="bui-btn coin-li" onclick="javascript:window.location.href='/park/wallet_datail_more/{{ t.id }}/'" >
+                    <div class="ck" style="width: 100%;position: relative">
+                        <div class="left">
+                            <p style="font-family: 隶书;font-size: 20px">{{ t.source }}</p>
+                            <p style="color: gainsboro;">{{ t.time }}</p>
+                        </div>
+                        <div class="right">
+                            {% if t.status == True %}
+                                <strong style="font-size: 22px">-{{ t.price }}</strong>
+                            {% else %}
+                                <strong style="font-size: 22px;color: sandybrown">+{{ t.price }}</strong>
+                            {% endif %}
+
+                        </div>
+                    </div>
+                </li>
+                {% endfor %}
+            </ul>
+        </div>
+    </main>
+    <footer>
+        <!-- 底部d导航栏 -->
+        <ul class="bui-nav">
+            <li class="bui-btn bui-box-vertical">
+                <a href="{% url 'index' %}">
+                    <i class="icon-home"></i>
+                    <div class="span1">首页</div>
+                </a>
+            </li>
+            <li class="bui-btn bui-box-vertical active"><i class="icon">&#xe67a;</i>
+                <a href="{% url 'center' %}" ><div class="span1">我的</div></a>
+            </li>
+        </ul>
+    </footer>
+</div>
+
+</body>
+</html>

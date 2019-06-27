@@ -10,8 +10,10 @@
     <script src="https://cdn.jsdelivr.net/npm/buijs/lib/zepto.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/buijs/lib/latest/bui.js"></script>
     <script charset="utf-8" src="https://map.qq.com/api/js?v=2.exp&key=SPHBZ-USUC3-FT43D-YDVWO-G7CCZ-FCBND"></script>
+    <script src="/static/lib/jquery-3.4.1.min.js"></script>
     <script type="text/javascript" src="https://apis.map.qq.com/tools/geolocation/min?key=SPHBZ-USUC3-FT43D-YDVWO-G7CCZ-FCBND&referer=myapp"></script>
-    <link rel="stylesheet" href="../../static/fonts/icons/iconfont.css">
+    <link rel="stylesheet" href="/static/fonts/icons/iconfont.css">
+    <script charset="utf-8" src="https://map.qq.com/api/js?v=2.exp&key=SPHBZ-USUC3-FT43D-YDVWO-G7CCZ-FCBND"></script>
     <title>HelloPark</title>
     <style>
         html,body{
@@ -39,7 +41,7 @@
         font-size: .4rem;
         color: #fff;
     }
-    
+
     .header-input {
         flex: 1;
         height: .86rem;
@@ -52,7 +54,7 @@
         top:4px;
         left:38px;
     }
-    .header-input input {
+    .header-input input[type='text'] {
         line-height: .64rem;
         border: 1px solid #fff;
         background: #eee;
@@ -70,6 +72,18 @@
         padding: 0 .1rem;
         text-align: center;
     }
+    .header-right input[type='button'] {
+        width:1.5rem;
+        height:.7rem;
+        border: 1px solid #00bcd4;
+        margin:5px;
+        background: #fff;
+        border-radius: 5px;
+
+    }
+    .con_info {
+        display:none;
+    }
     /* .arrow-icon {
         color: #fff;
         font-size: .4rem;
@@ -77,6 +91,7 @@
 
         #container{
             position: relative;
+            z-index: 1;
         }
         #others{
             position: absolute;
@@ -86,7 +101,12 @@
         .dwpng{
             width: 45px;height: 45px;
         }
-
+        #infoDiv{
+            position:absolute; bottom:0px; left:0; z-index:2;
+            width: 100%;
+            height: 200px;
+            background-color: white;
+        }
     </style>
 </head>
 <body>
@@ -95,19 +115,27 @@
             <a href="{% url 'center' %}"><i class="iconfont person-icon">&#xe605</i></a>
         </div>
         <div class="header-input">
-            <input type="text" placeholder="你想停在哪？">
+            <input type="text" id="keyword" placeholder="你想停在哪？">
             <i class="icon-search"></i>
         </div>
-        <!-- <div class="header-right">
-            <i class="iconfont arrow-icon">&#xe625</i>
-        </div> -->
+        <div class="header-right">
+            <input type="button" id="confirm" style="z-index: 5" value="搜索">
+        </div>
     </div>
     <div class="container" id="container"></div>
-
-
+    <div class="con_info" >
+        <div id="infoDiv"></div>
+    </div>
+<!-- <script>
+    $(document).bind('click',function(e){
+        var target=$(e.target);
+        if(target)
+    })
+</script> -->
 
     <script>
         window.onload = function () {
+            var searchService, markers = [];
             function getwihei(){
                 var wi=window.screen.width;
                 var hi=window.screen.height-50;
@@ -126,7 +154,7 @@
                 });
                 function CustomZoomControl(controlDiv, map) {
                     controlDiv.style.padding = "5px";
-                    controlDiv.innerHTML = "<img class='dwpng' src="+"{% static 'images/dw.png' %}"+" >";
+                    controlDiv.innerHTML = "<img class='dwpng' src="+"{% static 'images/dw2.png' %}"+" >";
                     controlDiv.index = 1;//设置在当前布局中的位置
 
                     function update() {
@@ -142,12 +170,12 @@
                                 map: map
                             });
                             //获取标记的点击事件
-                            qq.maps.event.addListener(marker, 'click', function() {
+                            /*qq.maps.event.addListener(marker, 'click', function() {
                                 info.open();
                                 info.setContent('<div style="text-align:center;white-space:nowrap;'+
                                 'margin:10px;">单击标记</div>');
                                 info.setPosition(center);
-                            });
+                            });*/
                             marker.setDraggable(true);
                             $.post('/park/setSei/', {'lat':position.lat, 'lng': position.lng});
 
@@ -161,12 +189,12 @@
                                 map: map
                             });
                             //获取标记的点击事件
-                            qq.maps.event.addListener(marker, 'click', function() {
+                            /*qq.maps.event.addListener(marker, 'click', function() {
                                 info.open();
                                 info.setContent('<div style="text-align:center;white-space:nowrap;'+
                                 'margin:10px;">单击标记</div>');
                                 info.setPosition(center);
-                            });
+                            });*/
                             marker.setDraggable(true);
                         }, options);
                     }
@@ -188,12 +216,12 @@
                     map: map
                 });
                 //获取标记的点击事件
-                qq.maps.event.addListener(marker, 'click', function() {
+                /*qq.maps.event.addListener(marker, 'click', function() {
                     info.open();
                     info.setContent('<div style="text-align:center;white-space:nowrap;'+
                     'margin:10px;">单击标记</div>');
                     info.setPosition(center);
-                });
+                });*/
                 marker.setDraggable(true);
                 var options = {timeout: 5000};
                 var geolocation = new qq.maps.Geolocation();
@@ -207,12 +235,12 @@
                         map: map
                     });
                     //获取标记的点击事件
-                    qq.maps.event.addListener(marker, 'click', function() {
+                    /*qq.maps.event.addListener(marker, 'click', function() {
                         info.open();
                         info.setContent('<div style="text-align:center;white-space:nowrap;'+
                         'margin:10px;">单击标记</div>');
                         info.setPosition(center);
-                    });
+                    });*/
                     marker.setDraggable(true);
                 }, function () {
                     alert("定位失败");
@@ -224,12 +252,12 @@
                         map: map
                     });
                     //获取标记的点击事件
-                    qq.maps.event.addListener(marker, 'click', function() {
+                    /*qq.maps.event.addListener(marker, 'click', function() {
                         info.open();
                         info.setContent('<div style="text-align:center;white-space:nowrap;'+
                         'margin:10px;">单击标记</div>');
                         info.setPosition(center);
-                    });
+                    });*/
                     marker.setDraggable(true);
                 }, options);
 
@@ -246,10 +274,122 @@
                       console.log('location', loc);
                     }
                 }, false);*/
+
+                var ls = {{ userSeats|safe }};
+                /*for(var i=0;i<ls.length;i++){
+                    //alert(ls[i][0]+' * '+ls[i][1]+' * '+' * '+ls[i][2]+' * '+' * '+ls[i][3]+' * ')
+                    var p = new qq.maps.LatLng(ls[i][1],ls[i][2]), pio = ls[i][0];
+                    var mk = new qq.maps.Marker({
+                        position: p,
+                        map: map,
+                    });
+                    mk.pioName = pio;
+                    mk.latt = ls[i][1];
+                    mk.lngg = ls[i][2];
+                    mk.price = ls[i][3];
+                    qq.maps.event.addListener(mk, 'click', function () {
+                        info.open();
+                        info.setContent('<div>' + this.pioName + ' </div>');
+                        //提示窗位置
+                        info.setPosition(mk);
+                    });
+                }*/
+                for(var i = 0;i < ls.length; i++) {
+                    (function(n){
+                        var p = new qq.maps.LatLng(ls[i][1],ls[i][2]), pio = ls[i][0];
+                        var ids = ls[i][4];
+                        var marker = new qq.maps.Marker({
+                            position: p,
+                            map: map,
+                        });
+                        qq.maps.event.addListener(marker, 'click', function() {
+                            info.open();
+                            info.setContent('<div style="text-align:center;white-space:'+
+                                'nowrap;margin:5px;"><a style="color: blue" href="'
+                                +'/park/park_info/'+ids+'/">详情</a>: '+pio
+                                +'<br>经纬度：'+p
+                                +'<br>车位编号：'+ids
+                                +'</div>');
+                            info.setPosition(p);
+                        });
+                    })(i);
+                }
+
+                var latlngBounds = new qq.maps.LatLngBounds();
+                //设置Poi检索服务，用于本地检索、周边检索
+                searchService = new qq.maps.SearchService({
+                    //设置搜索范围为北京
+                    location: "宁波",
+                    //设置搜索页码为1
+                    pageIndex: 1,
+                    //设置每页的结果数为5
+                    pageCapacity: 5,
+                    //设置展现查询结构到infoDIV上
+                    panel: document.getElementById('infoDiv'),
+                    //设置动扩大检索区域。默认值true，会自动检索指定城市以外区域。
+                    autoExtend: true,
+                    //检索成功的回调函数
+                    complete: function(results) {
+                        //设置回调函数参数
+                        var pois = results.detail.pois;
+                        for (var i = 0, l = pois.length; i < l; i++) {
+                            var poi = pois[i];
+                            //扩展边界范围，用来包含搜索到的Poi点
+                            latlngBounds.extend(poi.latLng);
+                            var marker = new qq.maps.Marker({
+                                map: map,
+                                position: poi.latLng
+                            });
+                            var anchor = new qq.maps.Point(0, 39),
+                                size = new qq.maps.Size(32, 38),
+                                scaleSize = new qq.maps.Size(32, 38),
+                                origin = new qq.maps.Point(0, 0),
+                                markerIcon = new qq.maps.MarkerImage(
+                                    '{% static 'images/location.png' %}',
+                                    size,
+                                    origin,
+                                    anchor,
+                                    scaleSize
+                                );
+                            marker.setIcon(markerIcon);
+                            marker.setTitle(i + 1);
+
+                            markers.push(marker);
+
+                        }
+                        //调整地图视野
+                        map.fitBounds(latlngBounds);
+
+                        //添加其他操作
+
+                    },
+                    //若服务请求失败，则运行以下函数
+                    error: function() {
+                        alert("出错了。");
+                    }
+                });
+
             }
             init();
-
-
+            //清除地图上的marker
+            function clearOverlays(overlays) {
+                var overlay;
+                while (overlay = overlays.pop()) {
+                    overlay.setMap(null);
+                }
+            }
+            //设置搜索的范围和关键字等属性
+            function searchKeyword() {
+                var keyword = document.getElementById("keyword").value;
+                clearOverlays(markers);
+                //根据输入的城市设置搜索范围
+                // searchService.setLocation("北京");
+                //根据输入的关键字在搜索范围内检索
+                searchService.search(keyword);
+            }
+            $('#confirm').click(function () {
+                searchKeyword();
+            });
         }
     </script>
 </body>

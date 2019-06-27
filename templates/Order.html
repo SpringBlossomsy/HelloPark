@@ -1,0 +1,90 @@
+<!DOCTYPE HTML>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>我的订单</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no">
+		<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/buijs/lib/latest/bui.css">
+		<script src="https://cdn.jsdelivr.net/npm/buijs/lib/zepto.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/buijs/lib/latest/bui.js"></script>
+        <!-- <script src="../static/js/template-web.js"></script> -->
+        <link rel="stylesheet" href="/static/css/center.css">
+        <style>
+            html {
+                background: rgba(245,245,245,1);
+            }
+            .coin-li {
+                padding: 30px 10px;
+            }
+        </style>
+	</head>
+	<body>
+	
+<div class="bui-page page-store">
+    <header class="bui-bar header-bar">
+        <div class="bui-bar-left">
+            <a class="bui-btn" onclick="bui.back();"><i class="icon-back"></i></a>
+        </div>
+        <div class="bui-bar-main">我的订单</div>
+        <div class="bui-bar-right">
+        </div>
+    </header>
+    <main>
+        <!-- 模板里面的数据,可以不用加 page -->
+        <div>
+            <ul b-template="page.tplList(list)" class="bui-list">
+            </ul>
+        </div>
+        <script id="tpl-list" type="text/html">
+
+                <li class="bui-btn coin-li" href="pages/store/index.html" >{{item}}</li>
+
+        </script>
+    </main>
+</div>
+
+<script>
+bui.ready(function(){
+    // 引入第三方模板, 里面部分用到,作为示例,并非所有数据都要引入
+    loader.import(["/static/js/template-web.js"],function(){
+      var bs = bui.store({
+              scope: "page", // 用于区分公共数据及当前数据的唯一值
+              data: {
+                  test: "",
+                  list: ["停车扣费 30元","零钱转入 90元",{"name":"我是列表"}]
+              },
+              templates: {
+                  tplList: function (data) {
+                      var html = "";
+                      data.forEach(function (item,i) {
+                        var itemstr = typeof item === "object" ? JSON.stringify(item) : item;
+                          html += `<li class="bui-btn" b-click='page.getClick(${itemstr})'>${itemstr}</li>`;
+                      })
+                      return html;
+                  },
+                  tplListCheck: function (data) {
+                      var _self = this;
+                      var html = "";
+                      data.forEach(function (item,i) {
+                          var hasCheck = bui.array.compare(item,_self.citysCheck);
+                          var checked = hasCheck ? "checked" : "";
+
+                          html += `<li class="bui-btn"><label><input type="checkbox" name="city" value="${item}" b-model="page.citysCheck" ${checked}>${item}</label></li>`;
+                      })
+                      return html;
+                  }
+              },
+              methods: {
+                getClick: function (e) {
+                  window.location.href="order_money_detail.html"
+                }
+              }
+          })
+    });
+
+
+})
+
+</script>
+</body>
+</html>
