@@ -585,6 +585,37 @@ def cancel_order(request):
         print(tt.status)
         tt.save()
         print(tt.status)
+        seat = UserPrakSeat.objects.get(id=tt.source.id)
+		# 车位的时间使用状态对应订单里的order_time改变为True；
+        times = tt.order_time.split(',')
+        # print(times[:-1])
+        for temp in times[:-1]:
+            temp = temp[:2]
+            if temp == '00':
+                seat.stat02 = True
+            elif temp == '02':
+                seat.stat24 = True
+            elif temp == '04':
+                seat.stat46 = True
+            elif temp == '06':
+                seat.stat68 = True
+            elif temp == '08':
+                seat.stat810 = True
+            elif temp == '10':
+                seat.stat1012 = True
+            elif temp == '12':
+                seat.stat1214 = True
+            elif temp == '14':
+                seat.stat1416 = True
+            elif temp == '16':
+                seat.stat1618 = True
+            elif temp == '18':
+                seat.stat1820 = True
+            elif temp == '20':
+                seat.stat2022 = True
+            elif temp == '22':
+                seat.stat2224 = True
+		seat.save()
     return redirect('order')
 
 
