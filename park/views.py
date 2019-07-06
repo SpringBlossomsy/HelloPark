@@ -451,6 +451,12 @@ def my_wallet_pay(request, number):
     u = UserProfile.objects.get(user=request.user)
     u.account = float(u.account) + float(int(number))
     u.save()
+    w = WalletDetail()
+    w.user = u
+    w.source = '充值'
+    w.price = float(int(number))
+    w.status = False
+    w.save()
     return redirect('wallet')
     # return render(request, 'My_Wallet_Pay.html')
 

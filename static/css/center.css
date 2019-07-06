@@ -109,3 +109,6 @@
     main{
         margin-bottom: 50px;
     }
+    body{
+        overflow-y: auto;
+    }
